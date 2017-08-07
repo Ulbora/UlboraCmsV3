@@ -1,0 +1,82 @@
+package main
+
+import (
+	"fmt"
+	"html/template"
+	"log"
+	"math/rand"
+	"net/http"
+	"os"
+	"strconv"
+
+	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
+)
+
+var sessionKey string
+var store *sessions.CookieStore
+var templates = template.Must(template.ParseFiles("./static/templates/default/index.html"))
+var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html"))
+
+//var username string
+
+func main() {
+	if os.Getenv("SESSION_SECRET_KEY") != "" {
+		sessionKey = os.Getenv("SESSION_SECRET_KEY")
+	} else {
+		sessionKey = "554dfgdffdd11dfgf1ff1f"
+	}
+	store = sessions.NewCookieStore([]byte(sessionKey))
+	store.Options = &sessions.Options{
+		MaxAge:   5 * 60,
+		HttpOnly: true,
+	}
+
+	router := mux.NewRouter()
+
+	//Web Site
+	router.HandleFunc("/", handleIndex)
+
+	//Admin site
+	router.HandleFunc("/admin", handleAdminIndex)
+	router.HandleFunc("/admin/", handleAdminIndex)
+	fmt.Println("Ulbora CMS V3 running!")
+	log.Println("Listening on :8090...")
+	http.ListenAndServe(":8090", router)
+
+}
+
+func handleIndex(res http.ResponseWriter, req *http.Request) {
+	templates.ExecuteTemplate(res, "index.html", nil)
+}
+
+func handleAdminIndex(res http.ResponseWriter, req *http.Request) {
+	//fmt.Println("inside admin index")
+	session, err := store.Get(req, "user-session")
+	if err != nil {
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+	}
+
+	user := session.Values["username"]
+	fmt.Print("user session: ")
+	fmt.Println(user)
+	var username = ""
+	if user != nil {
+		username = user.(string)
+	}
+
+	if username == "" {
+		fmt.Println("creating new user id")
+		tempUs := (rand.Float64() * 5) + 5
+		session.Values["username"] = strconv.FormatFloat(tempUs, 'f', 6, 64)
+		session.Save(req, res)
+		user := session.Values["username"]
+		username = user.(string)
+	}
+
+	fmt.Print("user: ")
+	fmt.Println(username)
+
+	templatesAdmin.ExecuteTemplate(res, "index.html", nil)
+
+}
