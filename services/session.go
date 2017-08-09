@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 
@@ -11,32 +12,35 @@ var sessionKey string
 
 //Session a sesstion
 type Session struct {
-	Store   *sessions.CookieStore
-	MaxAge  int
-	Name    string
-	session *sessions.Session
+	store  *sessions.CookieStore
+	MaxAge int
+	Name   string
+}
+
+//InitSessionStore initialize session store
+func (s *Session) InitSessionStore(res http.ResponseWriter, req *http.Request) {
+	if s.store == nil {
+		s.createSessionStore(res, req)
+	}
 }
 
 // CreateSessionStore creates a sesstion
-func (s *Session) CreateSessionStore(res http.ResponseWriter, req *http.Request) {
+func (s *Session) createSessionStore(res http.ResponseWriter, req *http.Request) {
+	fmt.Println("Creating Session Store")
 	if os.Getenv("SESSION_SECRET_KEY") != "" {
 		sessionKey = os.Getenv("SESSION_SECRET_KEY")
 	} else {
 		sessionKey = "554dfgdffdd11dfgf1ff1f"
 	}
-	s.Store = sessions.NewCookieStore([]byte(sessionKey))
-	s.Store.Options = &sessions.Options{
+	s.store = sessions.NewCookieStore([]byte(sessionKey))
+	s.store.Options = &sessions.Options{
 		MaxAge:   s.MaxAge,
 		HttpOnly: true,
 	}
-	var err error
-	s.session, err = s.Store.Get(req, s.Name)
-	if err != nil {
-		http.Error(res, err.Error(), http.StatusInternalServerError)
-	}
 }
 
-//Get gets session variables
-func (s *Session) Get(name string) interface{} {
-	return s.session.Values[name]
+//GetSession get session
+func (s *Session) GetSession(req *http.Request) (*sessions.Session, error) {
+	session, err := s.store.Get(req, s.Name)
+	return session, err
 }

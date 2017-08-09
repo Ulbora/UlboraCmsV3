@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"net/http"
 	"testing"
 )
@@ -12,14 +13,22 @@ func TestSession_CreateSessionStore(t *testing.T) {
 	s.Name = "user-session-test"
 	var res http.ResponseWriter
 	var req = new(http.Request)
-	s.CreateSessionStore(res, req)
-	if s.Store == nil {
+	s.InitSessionStore(res, req)
+	if s.store == nil {
 		t.Fail()
 	}
 }
-func TestGet(t *testing.T) {
-	val := s.Get("test")
-	if val != nil {
+func TestSession(t *testing.T) {
+	var req = new(http.Request)
+	var res http.ResponseWriter
+	session, err := s.GetSession(req)
+	if err != nil {
+		http.Error(res, err.Error(), http.StatusInternalServerError)
+	}
+	session.Values["test"] = "test_2"
+	test1 := session.Values["test"]
+	fmt.Println(test1)
+	if test1 != "test_2" {
 		t.Fail()
 	}
 }

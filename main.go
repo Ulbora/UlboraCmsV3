@@ -1,37 +1,32 @@
 package main
 
 import (
+	"UlboraCmsV3/services"
 	"fmt"
 	"html/template"
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"strconv"
 
 	"github.com/gorilla/mux"
-	"github.com/gorilla/sessions"
 )
 
-var sessionKey string
-var store *sessions.CookieStore
+const (
+	userSession       = "user-session"
+	sessingTimeToLive = (5 * 60)
+)
+
+var s services.Session
+
 var templates = template.Must(template.ParseFiles("./static/templates/default/index.html"))
 var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html"))
 
-//var username string
+var username string
 
 func main() {
-	if os.Getenv("SESSION_SECRET_KEY") != "" {
-		sessionKey = os.Getenv("SESSION_SECRET_KEY")
-	} else {
-		sessionKey = "554dfgdffdd11dfgf1ff1f"
-	}
-	store = sessions.NewCookieStore([]byte(sessionKey))
-	store.Options = &sessions.Options{
-		MaxAge:   5 * 60,
-		HttpOnly: true,
-	}
-
+	s.MaxAge = sessingTimeToLive
+	s.Name = userSession
 	router := mux.NewRouter()
 
 	//Web Site
@@ -51,12 +46,13 @@ func handleIndex(res http.ResponseWriter, req *http.Request) {
 }
 
 func handleAdminIndex(res http.ResponseWriter, req *http.Request) {
-	//fmt.Println("inside admin index")
-	session, err := store.Get(req, "user-session")
+	s.InitSessionStore(res, req)
+	fmt.Println("inside admin index")
+
+	session, err := s.GetSession(req)
 	if err != nil {
 		http.Error(res, err.Error(), http.StatusInternalServerError)
 	}
-
 	user := session.Values["username"]
 	fmt.Print("user session: ")
 	fmt.Println(user)
@@ -68,7 +64,9 @@ func handleAdminIndex(res http.ResponseWriter, req *http.Request) {
 	if username == "" {
 		fmt.Println("creating new user id")
 		tempUs := (rand.Float64() * 5) + 5
-		session.Values["username"] = strconv.FormatFloat(tempUs, 'f', 6, 64)
+		fmt.Print("new random: ")
+		fmt.Println(tempUs)
+		session.Values["username"] = strconv.FormatFloat(tempUs, 'f', 15, 64)
 		session.Save(req, res)
 		user := session.Values["username"]
 		username = user.(string)

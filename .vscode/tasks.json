@@ -8,12 +8,8 @@
       "taskName": "install",
       "suppressTaskName": false,
       "isBuildCommand": true,
-      "args": [  
-        "github.com/Ulbora/go-crud-mysql",     
-        "UlboraContentService/database/mysqldb",
-        "UlboraContentService/database",
-        "UlboraContentService/manager",
-        "github.com/Ulbora/go-ulbora-oauth2"
+      "args": [          
+        "UlboraCmsV3/services"
       ]
     },
     {
