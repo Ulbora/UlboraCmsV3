@@ -1,7 +1,9 @@
 package services
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -33,19 +35,21 @@ func (a *AuthCodeAuthorize) AuthCodeAuthorizeUser() bool {
 
 //AuthCodeToken auth code token
 type AuthCodeToken struct {
-	OauthHost   string
-	RedirectURI string
-	ClientID    string
-	Secret      string
-	Code        string
+	OauthHost    string
+	RedirectURI  string
+	ClientID     string
+	Secret       string
+	Code         string
+	RefreshToken string
 }
 
 //Token the access token
 type Token struct {
-	AccessToken  string
-	RefreshToken string
-	TokenType    string
-	ExpiresIn    int
+	AccessToken   string `json:"access_token"`
+	RefreshToken  string `json:"refresh_token"`
+	TokenType     string `json:"token_type"`
+	ExpiresIn     int    `json:"expires_in"`
+	ErrorReturned string `json:"error"`
 }
 
 //AuthCodeToken auth code token
@@ -54,8 +58,40 @@ func (t *AuthCodeToken) AuthCodeToken() *Token {
 		oauthAuthCodeTokenURI3 + t.Code + oauthAuthCodeTokenURI4 + t.RedirectURI
 	fmt.Print("AuthCode Token URI: ")
 	fmt.Println(url)
-	var token Token
-	token.AccessToken = "abcde"
-	//fmt.Errorf("sessions: invalid character in cookie name: %s", name)
-	return &token
+	resp, err := http.Post(url, "", nil)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	rtn := new(Token)
+	if resp.StatusCode == 200 || resp.StatusCode == 401 {
+		decoder := json.NewDecoder(resp.Body)
+		error := decoder.Decode(&rtn)
+		if error != nil {
+			log.Println(error.Error())
+		}
+	}
+	return rtn
+}
+
+// AuthCodeRefreshToken get refresh token
+func (t *AuthCodeToken) AuthCodeRefreshToken() *Token {
+	var url = t.OauthHost + oauthAuthCodeRefreshTokenURI1 + t.ClientID + oauthAuthCodeRefreshTokenURI2 + t.Secret +
+		oauthAuthCodeRefreshTokenURI3 + t.RefreshToken
+	fmt.Print("AuthCode RefreshToken URI: ")
+	fmt.Println(url)
+	resp, err := http.Post(url, "", nil)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+	rtn := new(Token)
+	if resp.StatusCode == 200 || resp.StatusCode == 401 {
+		decoder := json.NewDecoder(resp.Body)
+		error := decoder.Decode(&rtn)
+		if error != nil {
+			log.Println(error.Error())
+		}
+	}
+	return rtn
 }

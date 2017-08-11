@@ -15,5 +15,9 @@ const (
 	oauthAuthCodeTokenURI2 = "&client_secret="
 	oauthAuthCodeTokenURI3 = "&grant_type=authorization_code&code="
 	oauthAuthCodeTokenURI4 = "&redirect_uri="
-	url                    = "http://localhost:3000/oauth/token?client_id=403&client_secret=554444vfg55ggfff22454sw2fff2dsfd&grant_type=authorization_code&code=i76y13e340akRn6Ipkdbii&redirect_uri=http://www.google.com"
+
+	//refresh token
+	oauthAuthCodeRefreshTokenURI1 = "/oauth/token?grant_type=refresh_token&client_id="
+	oauthAuthCodeRefreshTokenURI2 = "&client_secret="
+	oauthAuthCodeRefreshTokenURI3 = "&refresh_token="
 )
