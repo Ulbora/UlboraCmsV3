@@ -19,7 +19,9 @@
       "args": [
         "-u",
         "github.com/gorilla/mux",
-        "github.com/gorilla/sessions"
+        "github.com/gorilla/sessions",
+        "github.com/Ulbora/go-better-sessions",
+        "github.com/Ulbora/go-oauth2-client"
       ]
     }
   ]
