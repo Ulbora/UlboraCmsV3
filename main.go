@@ -125,6 +125,18 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		author := r.FormValue("author")
 		fmt.Print("author: ")
 		fmt.Println(author)
+
+		category := r.FormValue("category")
+		fmt.Print("category: ")
+		fmt.Println(category)
+
+		metaKeyWords := r.FormValue("metaKeyWords")
+		fmt.Print("metaKeyWords: ")
+		fmt.Println(metaKeyWords)
+
+		desc := r.FormValue("desc")
+		fmt.Print("desc: ")
+		fmt.Println(desc)
 	}
 
 }
