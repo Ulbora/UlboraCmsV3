@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Add Content</h3>
+        </div>
+        <form class="form-submit" method="post" action="/newContent">
+            <div class="input-group input-group-lg">
+                <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <div class="input-group">
+                <input name="author" type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="sizing-addon2">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <input name="category" type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <input name="metaKeyWords" type="text" class="form-control" placeholder="Meta Key Words. Example: books, music" aria-label="Meta Key Words"
+                    aria-describedby="sizing-addon1">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <textarea name="desc" class="form-control" rows="3" placeholder="Description" aria-label="Description" aria-describedby="sizing-addon1"></textarea>
+            </div>
+            <br>
+            <textarea id="content-area" name="content">Ulbora CMS V3, a new Cloud CMS!</textarea>
+            <div class="form-submit">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+</body>
+{{template "footer"}}
+
+</html>
