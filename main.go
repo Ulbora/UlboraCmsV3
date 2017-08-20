@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	services "UlboraCmsV3/services"
+
 	usession "github.com/Ulbora/go-better-sessions"
 	oauth2 "github.com/Ulbora/go-oauth2-client"
 	"github.com/gorilla/mux"
@@ -66,11 +68,16 @@ func main() {
 	http.ListenAndServe(":8090", router)
 }
 
+// user handlers-----------------------------------------------------
 func handleIndex(res http.ResponseWriter, req *http.Request) {
 	fmt.Println(req.TransferEncoding)
 	fmt.Println(req.Host)
 	templates.ExecuteTemplate(res, "index.html", nil)
 }
+
+//end user handlers------------------------------------------------
+
+// admin handlers -------------------------------------------------
 
 func handleAdminIndex(res http.ResponseWriter, req *http.Request) {
 
@@ -104,7 +111,6 @@ func handleAddContent(res http.ResponseWriter, req *http.Request) {
 }
 
 func handleNewContent(w http.ResponseWriter, r *http.Request) {
-
 	s.InitSessionStore(w, r)
 	session, err := s.GetSession(r)
 	if err != nil {
@@ -137,10 +143,29 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		desc := r.FormValue("desc")
 		fmt.Print("desc: ")
 		fmt.Println(desc)
+		var ct services.Content
+		ct.Text = content
+		ct.Title = title
+		ct.MetaAuthorName = author
+		ct.Category = category
+		ct.MetaKeyWords = metaKeyWords
+		ct.MetaRobotKeyWords = metaKeyWords
+		ct.MetaDesc = desc
+
+		var c services.ContentService
+		c.ClientID = authCodeClient
+		c.Token = token.AccessToken
+		c.Host = getContentHost()
+		res := c.AddContent(&ct)
+		fmt.Println(res)
+
 	}
 
 }
 
+// end admin handlers---------------------------------------------------------
+
+// login handler
 func handleLogout(res http.ResponseWriter, req *http.Request) {
 	session, err := s.GetSession(req)
 	if err != nil {
@@ -190,6 +215,8 @@ func handleToken(res http.ResponseWriter, req *http.Request) {
 				session.Values["userLoggenIn"] = true
 				session.Save(req, res)
 				http.Redirect(res, req, "/admin", http.StatusFound)
+
+				// decode token and get user id
 			}
 		}
 	}
@@ -232,4 +259,14 @@ func getRedirectURI(req *http.Request, path string) string {
 		serverHost = schemeDefault + req.Host + path
 	}
 	return serverHost
+}
+
+func getContentHost() string {
+	var rtn = ""
+	if os.Getenv("CONTENT_HOST") != "" {
+		rtn = os.Getenv("CONTENT_HOST")
+	} else {
+		rtn = "http://localhost:3008"
+	}
+	return rtn
 }
