@@ -9,7 +9,12 @@
       "suppressTaskName": false,
       "isBuildCommand": true,
       "args": [          
-        "UlboraCmsV3/services"
+        "UlboraCmsV3/services",
+        "github.com/gorilla/mux",
+        "github.com/gorilla/sessions",
+        "github.com/Ulbora/go-better-sessions",
+        "github.com/Ulbora/go-oauth2-client",
+        "github.com/dgrijalva/jwt-go"
       ]
     },
     {
@@ -21,7 +26,8 @@
         "github.com/gorilla/mux",
         "github.com/gorilla/sessions",
         "github.com/Ulbora/go-better-sessions",
-        "github.com/Ulbora/go-oauth2-client"
+        "github.com/Ulbora/go-oauth2-client",
+        "github.com/dgrijalva/jwt-go"
       ]
     }
   ]

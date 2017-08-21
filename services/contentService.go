@@ -14,6 +14,8 @@ import (
 type ContentService struct {
 	Token    string
 	ClientID string
+	UserID   string
+	Hashed   string
 	Host     string
 }
 
@@ -24,6 +26,7 @@ type Content struct {
 	Category          string    `json:"category"`
 	CreateDate        time.Time `json:"createDate"`
 	ModifiedDate      time.Time `json:"modifiedDate"`
+	UseModifiedDate   bool      `json:"useModifiedDate"`
 	Hits              int64     `json:"hits"`
 	MetaAuthorName    string    `json:"metaAuthorName"`
 	MetaDesc          string    `json:"metaDesc"`
@@ -58,6 +61,8 @@ func (c *ContentService) AddContent(content *Content) *Response {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
 			req.Header.Set("clientId", c.ClientID)
+			req.Header.Set("userId", c.UserID)
+			req.Header.Set("hashed", c.Hashed)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -95,6 +100,8 @@ func (c *ContentService) UpdateContent(content *Content) *Response {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
 			req.Header.Set("clientId", c.ClientID)
+			req.Header.Set("userId", c.UserID)
+			req.Header.Set("hashed", c.Hashed)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -132,6 +139,8 @@ func (c *ContentService) UpdateContentHits(content *Content) *Response {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
 			req.Header.Set("clientId", c.ClientID)
+			req.Header.Set("userId", c.UserID)
+			req.Header.Set("hashed", c.Hashed)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -200,6 +209,11 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 				panic(err)
 			} else {
 				rtn[r].Text = string(txt)
+				//fmt.Println(rtn[r].Text)
+			}
+			//fmt.Println(rtn[r].ModifiedDate.Year())
+			if rtn[r].ModifiedDate.Year() != 1 {
+				rtn[r].UseModifiedDate = true
 			}
 		}
 	}
@@ -219,6 +233,8 @@ func (c *ContentService) DeleteContent(id string) *Response {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+c.Token)
 		req.Header.Set("clientId", c.ClientID)
+		req.Header.Set("userId", c.UserID)
+		req.Header.Set("hashed", c.Hashed)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {

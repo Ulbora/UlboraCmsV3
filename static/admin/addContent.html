@@ -10,7 +10,7 @@
         </div>
         <form class="form-submit" method="post" action="/newContent">
             <div class="input-group input-group-lg">
-                <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1">
+                <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1" required>
             </div>
             <br>
             <div class="input-group">
@@ -18,7 +18,7 @@
             </div>
             <br>
             <div class="input-group input-group-lg">
-                <input name="category" type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="sizing-addon1">
+                <input name="category" type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="sizing-addon1" required>
             </div>
             <br>
             <div class="input-group input-group-lg">
@@ -30,7 +30,7 @@
                 <textarea name="desc" class="form-control" rows="3" placeholder="Description" aria-label="Description" aria-describedby="sizing-addon1"></textarea>
             </div>
             <br>
-            <textarea id="content-area" name="content">Ulbora CMS V3, a new Cloud CMS!</textarea>
+            <textarea id="content-area" name="content" required>Ulbora CMS V3, a new Cloud CMS!</textarea>
             <div class="form-submit">
                 <button class="btn" type="submit">Submit</button>
             </div>

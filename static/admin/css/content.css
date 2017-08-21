@@ -1,7 +1,7 @@
 .content-title{
     text-align: center;
     width: 100%;
-    padding: 1% 0 0 0;
+    padding: 1% 0 0 0;    
 }
 
 .form-submit{
@@ -13,4 +13,9 @@
     text-align: center;
     width: 100%;
     padding: 3% 0 0 0;   
+}
+
+.content-list{        
+    padding: 1% 0 0 0;
+    margin: 0 0 500px 0;    
 }

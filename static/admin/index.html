@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html>
-    {{template "header"}}
-    <body>
-        <div class="container-fluid">   
-            {{template "navbar"}}
-            <div>Admin page content</div>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid content-list">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Content List</h3>
         </div>
-    </body>
-    {{template "footer"}}
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                    <th>Hits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr>
+                    <td>{{.Title}}</td>
+                    <td>{{.Category}}</td>
+                    <td>{{.CreateDate.Format "January 2, 2006 15:04 MST"}}</td>
+                    {{if .UseModifiedDate}}
+                    <td>{{.ModifiedDate.Format "January 2, 2006 15:04 MST"}}</td>
+                    {{else}}
+                    <td>--------------</td>
+                    {{end}}
+                    <td>{{.Hits}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</body>
+{{template "footer"}}
+
 </html>
