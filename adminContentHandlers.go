@@ -4,12 +4,13 @@ import (
 	services "UlboraCmsV3/services"
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 // admin content handlers -------------------------------------------------
 
 func handleAdminIndex(w http.ResponseWriter, r *http.Request) {
-
 	s.InitSessionStore(w, r)
 	session, err := s.GetSession(r)
 	if err != nil {
@@ -24,7 +25,6 @@ func handleAdminIndex(w http.ResponseWriter, r *http.Request) {
 		res := c.GetContentList(authCodeClient)
 		templatesAdmin.ExecuteTemplate(w, "index.html", &res)
 	}
-
 }
 
 func handleAddContent(res http.ResponseWriter, req *http.Request) {
@@ -98,9 +98,26 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		} else {
 			http.Redirect(w, r, "/addContent", http.StatusFound)
 		}
-
 	}
+}
 
+func handleGetContent(w http.ResponseWriter, r *http.Request) {
+	s.InitSessionStore(w, r)
+	session, err := s.GetSession(r)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	loggedIn := session.Values["userLoggenIn"]
+	if loggedIn == nil || loggedIn.(bool) == false || token == nil {
+		authorize(w, r)
+	} else {
+		vars := mux.Vars(r)
+		id := vars["id"]
+		var c services.ContentService
+		c.Host = getContentHost()
+		res := c.GetContent(id, authCodeClient)
+		templatesAdmin.ExecuteTemplate(w, "updateContent.html", &res)
+	}
 }
 
 // end admin content handlers---------------------------------------------------------

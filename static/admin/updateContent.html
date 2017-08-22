@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Update Content</h3>
+        </div>
+        <div class="content-delete-link">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+        Delete this content
+      </button>
+        </div>
+        <form class="form-submit" method="post" action="/updateContent">
+            <input name="id" type="hidden" value="{{.ID}}">
+            <div class="input-group input-group-lg">
+                <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1"
+                    value="{{.Title}}" required>
+            </div>
+            <br>
+            <div class="input-group">
+                <input name="author" type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="sizing-addon2"
+                    value="{{.MetaAuthorName}}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <input name="category" type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="sizing-addon1"
+                    value="{{.Category}}" required>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <input name="metaKeyWords" type="text" class="form-control" placeholder="Meta Key Words. Example: books, music" aria-label="Meta Key Words"
+                    aria-describedby="sizing-addon1" value="{{.MetaKeyWords}}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <textarea name="desc" class="form-control" rows="3" placeholder="Description" aria-label="Description" aria-describedby="sizing-addon1">{{.MetaDesc}}</textarea>
+            </div>
+            <br>
+            <textarea id="content-area" name="content" required>{{.Text}}</textarea>
+            <div class="form-submit">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+    <br>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    Delete this content
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='/deleteContent/{{.ID}}';" >Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+{{template "footer"}}
+
+</html>

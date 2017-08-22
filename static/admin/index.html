@@ -20,17 +20,18 @@
             </thead>
             <tbody>
                 {{range .}}
-                <tr>
-                    <td>{{.Title}}</td>
+                <tr class='clickable-row' data-href='/getContent/{{.ID}}'>
+                    <td><a href="/getContent/{{.ID}}">{{.Title}} </a></td>
                     <td>{{.Category}}</td>
-                    <td>{{.CreateDate.Format "January 2, 2006 15:04 MST"}}</td>
+                    <td>{{.CreateDate.Format "Jan 2, 2006"}}</td>
                     {{if .UseModifiedDate}}
-                    <td>{{.ModifiedDate.Format "January 2, 2006 15:04 MST"}}</td>
+                    <td>{{.ModifiedDate.Format "Jan 2, 2006"}}</td>
                     {{else}}
-                    <td>--------------</td>
+                    <td>---</td>
                     {{end}}
                     <td>{{.Hits}}</td>
                 </tr>
+
                 {{end}}
             </tbody>
         </table>
