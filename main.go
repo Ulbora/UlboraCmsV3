@@ -45,6 +45,8 @@ func main() {
 	router.HandleFunc("/addContent/", handleAddContent)
 	router.HandleFunc("/newContent", handleNewContent)
 	router.HandleFunc("/getContent/{id}", handleGetContent)
+	router.HandleFunc("/updateContent", handleUpdateContent)
+	router.HandleFunc("/deleteContent/{id}", handleDeleteContent)
 	router.HandleFunc("/logout", handleLogout)
 	router.HandleFunc("/logout/", handleLogout)
 
