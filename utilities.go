@@ -57,6 +57,16 @@ func getContentHost() string {
 	return rtn
 }
 
+func getMailHost() string {
+	var rtn = ""
+	if os.Getenv("MAIL_HOST") != "" {
+		rtn = os.Getenv("MAIL_HOST")
+	} else {
+		rtn = "http://localhost:3002"
+	}
+	return rtn
+}
+
 func getHashedUser() string {
 	var rtn string
 	//fmt.Println(token.AccessToken)

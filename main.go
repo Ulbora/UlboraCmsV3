@@ -19,8 +19,10 @@ var token *oauth2.Token
 
 var templates = template.Must(template.ParseFiles("./static/templates/default/index.html"))
 var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
-	"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/addContent.html",
-	"./static/admin/updateContent.html"))
+	"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
+	"./static/admin/addContent.html",
+	"./static/admin/updateContent.html", "./static/admin/mailServer.html",
+	"./static/admin/imageUpload.html"))
 
 var username string
 
@@ -47,6 +49,13 @@ func main() {
 	router.HandleFunc("/getContent/{id}", handleGetContent)
 	router.HandleFunc("/updateContent", handleUpdateContent)
 	router.HandleFunc("/deleteContent/{id}", handleDeleteContent)
+
+	router.HandleFunc("/mailServer", handleMailServer)
+	router.HandleFunc("/mailServerUpdate", handleMailServerUpdate)
+
+	router.HandleFunc("/addImage", handleAddImage)
+	router.HandleFunc("/uploadImage", handleImagerUpdate)
+
 	router.HandleFunc("/logout", handleLogout)
 	router.HandleFunc("/logout/", handleLogout)
 

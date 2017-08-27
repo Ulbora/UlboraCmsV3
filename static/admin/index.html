@@ -13,6 +13,8 @@
                 <tr>
                     <th>Title</th>
                     <th>Category</th>
+                    <th>Sort Order</th>
+                    <th>Archived</th>
                     <th>Created</th>
                     <th>Modified</th>
                     <th>Hits</th>
@@ -23,6 +25,8 @@
                 <tr class='clickable-row' data-href='/getContent/{{.ID}}'>
                     <td><a href="/getContent/{{.ID}}">{{.Title}} </a></td>
                     <td>{{.Category}}</td>
+                    <td>{{.SortOrder}}</td>
+                    <td>{{.Archived}}</td>
                     <td>{{.CreateDate.Format "Jan 2, 2006"}}</td>
                     {{if .UseModifiedDate}}
                     <td>{{.ModifiedDate.Format "Jan 2, 2006"}}</td>

@@ -70,6 +70,13 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		fmt.Print("category: ")
 		fmt.Println(category)
 
+		sortOrder := r.FormValue("sortOrder")
+		if sortOrder == "" {
+			sortOrder = "0"
+		}
+		fmt.Print("sortOrder: ")
+		fmt.Println(sortOrder)
+
 		metaKeyWords := r.FormValue("metaKeyWords")
 		fmt.Print("metaKeyWords: ")
 		fmt.Println(metaKeyWords)
@@ -85,7 +92,10 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		ct.MetaKeyWords = metaKeyWords
 		ct.MetaRobotKeyWords = metaKeyWords
 		ct.MetaDesc = desc
-
+		ct.SortOrder, err = strconv.Atoi(sortOrder)
+		if err != nil {
+			fmt.Println(err)
+		}
 		var c services.ContentService
 		c.ClientID = authCodeClient
 		c.UserID = getHashedUser()
@@ -136,6 +146,13 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		fmt.Print("category: ")
 		fmt.Println(category)
 
+		sortOrder := r.FormValue("sortOrder")
+		if sortOrder == "" {
+			sortOrder = "0"
+		}
+		fmt.Print("sortOrder: ")
+		fmt.Println(sortOrder)
+
 		metaKeyWords := r.FormValue("metaKeyWords")
 		fmt.Print("metaKeyWords: ")
 		fmt.Println(metaKeyWords)
@@ -143,6 +160,11 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		desc := r.FormValue("desc")
 		fmt.Print("desc: ")
 		fmt.Println(desc)
+
+		archived := r.FormValue("archived")
+		fmt.Print("archived: ")
+		fmt.Println(archived)
+
 		var ct services.Content
 		ct.ID = id
 		ct.Text = content
@@ -152,7 +174,15 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		ct.MetaKeyWords = metaKeyWords
 		ct.MetaRobotKeyWords = metaKeyWords
 		ct.MetaDesc = desc
-
+		ct.SortOrder, err = strconv.Atoi(sortOrder)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if archived == "on" {
+			ct.Archived = true
+		} else {
+			ct.Archived = false
+		}
 		var c services.ContentService
 		c.ClientID = authCodeClient
 		c.UserID = getHashedUser()

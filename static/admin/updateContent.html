@@ -4,7 +4,7 @@
 
 <body>
     <div class="container-fluid">
-        {{template "navbar"}}
+        {{template "contentNavbar"}}
         <div class="content-title">
             <h3>Update Content</h3>
         </div>
@@ -17,27 +17,49 @@
         <form class="form-submit" method="post" action="/updateContent">
             <input name="id" type="hidden" value="{{.ID}}">
             <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Title</span>
                 <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1"
                     value="{{.Title}}" required>
             </div>
             <br>
             <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Author</span>
                 <input name="author" type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="sizing-addon2"
                     value="{{.MetaAuthorName}}">
             </div>
             <br>
             <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Category</span>
                 <input name="category" type="text" class="form-control" placeholder="Category" aria-label="Category" aria-describedby="sizing-addon1"
                     value="{{.Category}}" required>
             </div>
             <br>
             <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Sort Order</span>
+                <input name="sortOrder" type="number" class="form-control" placeholder="Sort Order" aria-label="Sort Order" aria-describedby="sizing-addon1"
+                    value="{{.SortOrder}}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Key Words</span>
                 <input name="metaKeyWords" type="text" class="form-control" placeholder="Meta Key Words. Example: books, music" aria-label="Meta Key Words"
                     aria-describedby="sizing-addon1" value="{{.MetaKeyWords}}">
             </div>
             <br>
             <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Description</span>
                 <textarea name="desc" class="form-control" rows="3" placeholder="Description" aria-label="Description" aria-describedby="sizing-addon1">{{.MetaDesc}}</textarea>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Archived</span>
+                <span class="input-group-addon">
+                        <input name="archived" type="checkbox" aria-label="Checkbox for following text input"
+                        {{if .Archived}}
+                            checked
+                        {{end}}
+                        >
+                </span>
             </div>
             <br>
             <textarea id="content-area" name="content" required>{{.Text}}</textarea>
@@ -64,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" onclick="location.href='/deleteContent/{{.ID}}';" >Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='/deleteContent/{{.ID}}';">Delete</button>
                 </div>
             </div>
         </div>

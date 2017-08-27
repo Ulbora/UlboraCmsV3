@@ -33,6 +33,8 @@ type Content struct {
 	MetaKeyWords      string    `json:"metaKeyWords"`
 	MetaRobotKeyWords string    `json:"metaRobotKeyWords"`
 	Text              string    `json:"text"`
+	SortOrder         int       `json:"sortOrder"`
+	Archived          bool      `json:"archived"`
 	ClientID          int64     `json:"clientId"`
 }
 
@@ -178,7 +180,7 @@ func (c *ContentService) GetContent(id string, clientID string) *Content {
 		}
 		txt, err := b64.StdEncoding.DecodeString(rtn.Text)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
 		} else {
 			rtn.Text = string(txt)
 		}
@@ -192,7 +194,8 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 	var gURL = c.Host + "/rs/content/list/" + clientID
 	//fmt.Println(gURL)
 	resp, err := http.Get(gURL)
-	//fmt.Println(resp)
+	fmt.Print("get list")
+	fmt.Println(resp.Body)
 	if err != nil {
 		panic(err)
 	} else {
@@ -206,7 +209,42 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 		for r := range rtn {
 			txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
 			if err != nil {
-				panic(err)
+				fmt.Println(err)
+			} else {
+				rtn[r].Text = string(txt)
+				//fmt.Println(rtn[r].Text)
+			}
+			//fmt.Println(rtn[r].ModifiedDate.Year())
+			if rtn[r].ModifiedDate.Year() != 1 {
+				rtn[r].UseModifiedDate = true
+			}
+		}
+	}
+	return &rtn
+}
+
+// GetContentListCategory get content list by client
+func (c *ContentService) GetContentListCategory(clientID string, category string) *[]Content {
+	var rtn = make([]Content, 0)
+	var gURL = c.Host + "/rs/content/list/" + clientID + "/" + category
+	//fmt.Println(gURL)
+	resp, err := http.Get(gURL)
+	fmt.Print("get category list")
+	fmt.Println(resp)
+	if err != nil {
+		panic(err)
+	} else {
+		defer resp.Body.Close()
+		//var cont = new(Content)
+		decoder := json.NewDecoder(resp.Body)
+		error := decoder.Decode(&rtn)
+		if error != nil {
+			log.Println(error.Error())
+		}
+		for r := range rtn {
+			txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
+			if err != nil {
+				fmt.Println(err)
 			} else {
 				rtn[r].Text = string(txt)
 				//fmt.Println(rtn[r].Text)
