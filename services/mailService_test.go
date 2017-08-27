@@ -34,7 +34,7 @@ func TestMailServerService_UpdateMailServer(t *testing.T) {
 	var m MailServerService
 	m.ClientID = "403"
 	m.Host = "http://localhost:3002"
-	m.Token = token
+	m.Token = mailToken
 	var ms MailServer
 	ms.ID = addMailID
 	ms.MailServer = "mail.some.com"
@@ -57,7 +57,7 @@ func TestContentService_GetMailServer(t *testing.T) {
 	var m MailServerService
 	m.ClientID = "403"
 	m.Host = "http://localhost:3002"
-	m.Token = token
+	m.Token = mailToken
 	res := m.GetMailServer()
 	fmt.Print("res server get: ")
 	fmt.Println(res)

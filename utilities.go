@@ -67,6 +67,16 @@ func getMailHost() string {
 	return rtn
 }
 
+func getImageHost() string {
+	var rtn = ""
+	if os.Getenv("IMAGE_HOST") != "" {
+		rtn = os.Getenv("IMAGE_HOST")
+	} else {
+		rtn = "http://localhost:3007"
+	}
+	return rtn
+}
+
 func getHashedUser() string {
 	var rtn string
 	//fmt.Println(token.AccessToken)

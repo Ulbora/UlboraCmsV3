@@ -54,7 +54,7 @@ func main() {
 	router.HandleFunc("/mailServerUpdate", handleMailServerUpdate)
 
 	router.HandleFunc("/addImage", handleAddImage)
-	router.HandleFunc("/uploadImage", handleImagerUpdate)
+	router.HandleFunc("/uploadImage", handleImagerUpload)
 
 	router.HandleFunc("/logout", handleLogout)
 	router.HandleFunc("/logout/", handleLogout)
