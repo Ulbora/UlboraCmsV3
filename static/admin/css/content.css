@@ -28,3 +28,32 @@
 .content-delete-link a:visited{
     color:red;  
 }
+
+.image-view{
+    padding: 1%;      
+}
+.image-view img { 
+    max-width: 100%; 
+}
+
+.image-card{
+    margin: 0 0 2% 0;
+    padding: 2%;
+    
+}
+
+
+@media screen and (min-width: 1200px){
+    .image-wrapper{
+        overflow-y: auto;
+        height: 1000px;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .image-wrapper{
+        overflow-y: auto;
+        height: 1000px;
+    }
+}
+

@@ -28,19 +28,27 @@ func handleAdminIndex(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func handleAddContent(res http.ResponseWriter, req *http.Request) {
+func handleAddContent(w http.ResponseWriter, r *http.Request) {
 
-	s.InitSessionStore(res, req)
-	session, err := s.GetSession(req)
+	s.InitSessionStore(w, r)
+	session, err := s.GetSession(r)
 	if err != nil {
-		http.Error(res, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 	loggedIn := session.Values["userLoggenIn"]
 	if loggedIn == nil || loggedIn.(bool) == false || token == nil {
-		authorize(res, req)
+		authorize(w, r)
 	} else {
+		var i services.ImageService
+		i.ClientID = authCodeClient
+		//i.UserID = getHashedUser()
+		//i.Hashed = "true"
+		i.Token = token.AccessToken
+		i.Host = getImageHost()
 
-		templatesAdmin.ExecuteTemplate(res, "addContent.html", nil)
+		res := i.GetList()
+
+		templatesAdmin.ExecuteTemplate(w, "addContent.html", &res)
 	}
 }
 
