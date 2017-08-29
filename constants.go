@@ -2,7 +2,7 @@ package main
 
 const (
 	userSession       = "user-session"
-	sessingTimeToLive = (5 * 60) //five minutes
+	sessingTimeToLive = (120 * 60) //120 minutes -- 2 hours
 
 	//http
 	schemeDefault = "http://"

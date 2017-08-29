@@ -19,3 +19,16 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
 }
+
+var pageSaved;
+
+function leavePage(){  
+    if(pageSaved !== true){
+        return "Page Not Saved!";
+    }else{
+        return;
+    }  
+}
+function savePage(){
+    pageSaved = true;
+}

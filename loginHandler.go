@@ -19,7 +19,7 @@ func handleLogout(res http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func authorize(res http.ResponseWriter, req *http.Request) {
+func authorize(res http.ResponseWriter, req *http.Request) bool {
 	fmt.Println("in authorize")
 	fmt.Println(schemeDefault)
 	var a oauth2.AuthCodeAuthorize
@@ -34,6 +34,9 @@ func authorize(res http.ResponseWriter, req *http.Request) {
 	if resp != true {
 		fmt.Println("Authorize Failed")
 	}
+	fmt.Print("Resp: ")
+	fmt.Println(resp)
+	return resp
 }
 
 func handleToken(res http.ResponseWriter, req *http.Request) {

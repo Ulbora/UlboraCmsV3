@@ -5,9 +5,15 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
+
+type contentAndImages struct {
+	Cont *services.Content
+	Img  *[]services.Image
+}
 
 // admin content handlers -------------------------------------------------
 
@@ -38,12 +44,15 @@ func handleAddContent(w http.ResponseWriter, r *http.Request) {
 	loggedIn := session.Values["userLoggenIn"]
 	if loggedIn == nil || loggedIn.(bool) == false || token == nil {
 		authorize(w, r)
+		fmt.Print("auth success: ")
+		fmt.Println(s)
 	} else {
 		var i services.ImageService
 		i.ClientID = authCodeClient
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 		i.Token = token.AccessToken
+		fmt.Println(token.AccessToken)
 		i.Host = getImageHost()
 
 		res := i.GetList()
@@ -75,6 +84,7 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(author)
 
 		category := r.FormValue("category")
+		category = strings.Replace(category, " ", "", -1)
 		fmt.Print("category: ")
 		fmt.Println(category)
 
@@ -151,6 +161,7 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(author)
 
 		category := r.FormValue("category")
+		category = strings.Replace(category, " ", "", -1)
 		fmt.Print("category: ")
 		fmt.Println(category)
 
@@ -223,7 +234,22 @@ func handleGetContent(w http.ResponseWriter, r *http.Request) {
 		var c services.ContentService
 		c.Host = getContentHost()
 		res := c.GetContent(id, authCodeClient)
-		templatesAdmin.ExecuteTemplate(w, "updateContent.html", &res)
+
+		var i services.ImageService
+		i.ClientID = authCodeClient
+		//i.UserID = getHashedUser()
+		//i.Hashed = "true"
+		i.Token = token.AccessToken
+		fmt.Println(token.AccessToken)
+		i.Host = getImageHost()
+
+		ires := i.GetList()
+
+		var ci = new(contentAndImages)
+		ci.Cont = res
+		ci.Img = ires
+
+		templatesAdmin.ExecuteTemplate(w, "updateContent.html", &ci)
 	}
 }
 
