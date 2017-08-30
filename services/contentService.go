@@ -5,6 +5,7 @@ import (
 	b64 "encoding/base64"
 	"encoding/json"
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"time"
@@ -33,9 +34,10 @@ type Content struct {
 	MetaKeyWords      string    `json:"metaKeyWords"`
 	MetaRobotKeyWords string    `json:"metaRobotKeyWords"`
 	Text              string    `json:"text"`
-	SortOrder         int       `json:"sortOrder"`
-	Archived          bool      `json:"archived"`
-	ClientID          int64     `json:"clientId"`
+	TextHTML          template.HTML
+	SortOrder         int   `json:"sortOrder"`
+	Archived          bool  `json:"archived"`
+	ClientID          int64 `json:"clientId"`
 }
 
 //Response res
@@ -248,6 +250,7 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 			} else {
 				rtn[r].Text = string(txt)
 				//fmt.Println(rtn[r].Text)
+				rtn[r].TextHTML = template.HTML(rtn[r].Text)
 			}
 			//fmt.Println(rtn[r].ModifiedDate.Year())
 			if rtn[r].ModifiedDate.Year() != 1 {

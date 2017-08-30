@@ -17,7 +17,11 @@ import (
 var s usession.Session
 var token *oauth2.Token
 
-var templates = template.Must(template.ParseFiles("./static/templates/default/index.html"))
+var templateLoc = getTemplate()
+
+var templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
+	"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html"))
+
 var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
 	"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
 	"./static/admin/addContent.html",

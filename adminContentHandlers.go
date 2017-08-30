@@ -52,7 +52,7 @@ func handleAddContent(w http.ResponseWriter, r *http.Request) {
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 		i.Token = token.AccessToken
-		fmt.Println(token.AccessToken)
+		//fmt.Println(token.AccessToken)
 		i.Host = getImageHost()
 
 		res := i.GetList()
@@ -240,7 +240,7 @@ func handleGetContent(w http.ResponseWriter, r *http.Request) {
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 		i.Token = token.AccessToken
-		fmt.Println(token.AccessToken)
+		//fmt.Println(token.AccessToken)
 		i.Host = getImageHost()
 
 		ires := i.GetList()

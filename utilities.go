@@ -8,6 +8,16 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+func getTemplate() string {
+	var rtn = ""
+	if os.Getenv("TEMPLATE_LOC") != "" {
+		rtn = os.Getenv("TEMPLATE_LOC")
+	} else {
+		rtn = "default"
+	}
+	return rtn
+}
+
 func getAuthCodeClient() string {
 	var rtn = ""
 	if os.Getenv("AUTH_CODE_CLIENT_ID") != "" {
