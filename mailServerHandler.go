@@ -115,10 +115,10 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println(res)
 		if res.Success == true {
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
 			fmt.Println("Mail Server update failed")
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		}
 	}
 }

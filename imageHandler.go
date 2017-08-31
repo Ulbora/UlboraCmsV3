@@ -78,10 +78,10 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 		img.FileData = data
 		res := i.AddImage(&img)
 		if res.Success == true {
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
 			fmt.Println("Mail Server update failed")
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		}
 	}
 }

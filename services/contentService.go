@@ -40,6 +40,14 @@ type Content struct {
 	ClientID          int64 `json:"clientId"`
 }
 
+// PageHead used for page head
+type PageHead struct {
+	Title        string
+	MetaAuthor   string
+	MetaDesc     string
+	MetaKeyWords string
+}
+
 //Response res
 type Response struct {
 	Success bool  `json:"success"`
@@ -226,8 +234,9 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 }
 
 // GetContentListCategory get content list by client
-func (c *ContentService) GetContentListCategory(clientID string, category string) *[]Content {
+func (c *ContentService) GetContentListCategory(clientID string, category string) (*PageHead, *[]Content) {
 	var rtn = make([]Content, 0)
+	var pghead = new(PageHead)
 	var gURL = c.Host + "/rs/content/list/" + clientID + "/" + category
 	//fmt.Println(gURL)
 	resp, err := http.Get(gURL)
@@ -251,6 +260,12 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 				rtn[r].Text = string(txt)
 				//fmt.Println(rtn[r].Text)
 				rtn[r].TextHTML = template.HTML(rtn[r].Text)
+				if r == 0 {
+					pghead.MetaAuthor = rtn[r].MetaAuthorName
+					pghead.MetaDesc = rtn[r].MetaDesc
+					pghead.MetaKeyWords = rtn[r].MetaKeyWords
+					pghead.Title = rtn[r].Title
+				}
 			}
 			//fmt.Println(rtn[r].ModifiedDate.Year())
 			if rtn[r].ModifiedDate.Year() != 1 {
@@ -258,7 +273,7 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 			}
 		}
 	}
-	return &rtn
+	return pghead, &rtn
 }
 
 // DeleteContent delete content

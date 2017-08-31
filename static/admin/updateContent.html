@@ -18,7 +18,7 @@
             <div class="card border-primary mb-3" style="max-width: 80rem;">
                 <div class="card-header">Page</div>
                 <div class="card-body text-dark">
-                    <form class="form-submit" method="post" action="/updateContent">
+                    <form class="form-submit" method="post" action="/admin/updateContent">
                         <input name="id" type="hidden" value="{{.Cont.ID}}">
                         <textarea id="content-area" name="content" required>{{.Cont.Text}}</textarea>
                         <br>
@@ -115,7 +115,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button  type="button" class="btn btn-danger" onclick="savePage(); location.href='/deleteContent/{{.Cont.ID}}';">Delete</button>
+                    <button  type="button" class="btn btn-danger" onclick="savePage(); location.href='/admin/deleteContent/{{.Cont.ID}}';">Delete</button>
                 </div>
             </div>
         </div>

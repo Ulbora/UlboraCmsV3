@@ -25,7 +25,7 @@ func authorize(res http.ResponseWriter, req *http.Request) bool {
 	var a oauth2.AuthCodeAuthorize
 	a.ClientID = getAuthCodeClient()
 	a.OauthHost = getOauthHost()
-	a.RedirectURI = getRedirectURI(req, "/token")
+	a.RedirectURI = getRedirectURI(req, "/admin/token")
 	a.Scope = "write"
 	a.State = authCodeState
 	a.Res = res
@@ -48,7 +48,7 @@ func handleToken(res http.ResponseWriter, req *http.Request) {
 		tn.ClientID = getAuthCodeClient()
 		tn.Secret = getAuthCodeSecret()
 		tn.Code = code
-		tn.RedirectURI = getRedirectURI(req, "/token")
+		tn.RedirectURI = getRedirectURI(req, "/admin/token")
 		resp := tn.AuthCodeToken()
 		if resp != nil && resp.AccessToken != "" {
 			//fmt.Println(resp.AccessToken)
@@ -59,7 +59,7 @@ func handleToken(res http.ResponseWriter, req *http.Request) {
 			} else {
 				session.Values["userLoggenIn"] = true
 				session.Save(req, res)
-				http.Redirect(res, req, "/admin", http.StatusFound)
+				http.Redirect(res, req, "/admin/main", http.StatusFound)
 
 				// decode token and get user id
 			}

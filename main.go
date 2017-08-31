@@ -40,28 +40,29 @@ func main() {
 
 	//Web Site
 	router.HandleFunc("/", handleIndex)
+	router.HandleFunc("/{content}", handleIndex)
 
 	//token link
-	router.HandleFunc("/token", handleToken)
+	router.HandleFunc("/admin/token", handleToken)
 
 	//Admin site
-	router.HandleFunc("/admin", handleAdminIndex)
-	router.HandleFunc("/admin/", handleAdminIndex)
-	router.HandleFunc("/addContent", handleAddContent)
-	router.HandleFunc("/addContent/", handleAddContent)
-	router.HandleFunc("/newContent", handleNewContent)
-	router.HandleFunc("/getContent/{id}", handleGetContent)
-	router.HandleFunc("/updateContent", handleUpdateContent)
-	router.HandleFunc("/deleteContent/{id}", handleDeleteContent)
+	router.HandleFunc("/admin/main", handleAdminIndex)
+	router.HandleFunc("/admin/main/", handleAdminIndex)
+	router.HandleFunc("/admin/addContent", handleAddContent)
+	router.HandleFunc("/admin/addContent/", handleAddContent)
+	router.HandleFunc("/admin/newContent", handleNewContent)
+	router.HandleFunc("/admin/getContent/{id}", handleGetContent)
+	router.HandleFunc("/admin/updateContent", handleUpdateContent)
+	router.HandleFunc("/admin/deleteContent/{id}", handleDeleteContent)
 
-	router.HandleFunc("/mailServer", handleMailServer)
-	router.HandleFunc("/mailServerUpdate", handleMailServerUpdate)
+	router.HandleFunc("/admin/mailServer", handleMailServer)
+	router.HandleFunc("/admin/mailServerUpdate", handleMailServerUpdate)
 
-	router.HandleFunc("/addImage", handleAddImage)
-	router.HandleFunc("/uploadImage", handleImagerUpload)
+	router.HandleFunc("/admin/addImage", handleAddImage)
+	router.HandleFunc("/admin/uploadImage", handleImagerUpload)
 
-	router.HandleFunc("/logout", handleLogout)
-	router.HandleFunc("/logout/", handleLogout)
+	router.HandleFunc("/admin/logout", handleLogout)
+	router.HandleFunc("/admin/logout/", handleLogout)
 
 	// admin resources
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))

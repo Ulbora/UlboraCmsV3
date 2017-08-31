@@ -123,9 +123,9 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		res := c.AddContent(&ct)
 		fmt.Println(res)
 		if res.Success == true {
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
-			http.Redirect(w, r, "/addContent", http.StatusFound)
+			http.Redirect(w, r, "/admin/addContent", http.StatusFound)
 		}
 	}
 }
@@ -211,10 +211,10 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		res := c.UpdateContent(&ct)
 		fmt.Println(res)
 		if res.Success == true {
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
 			fmt.Println("Content update failed")
-			http.Redirect(w, r, "/admin", http.StatusFound)
+			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		}
 	}
 }
@@ -277,7 +277,7 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 			fmt.Print("code: ")
 			fmt.Println(res.Code)
 		}
-		http.Redirect(w, r, "/admin", http.StatusFound)
+		http.Redirect(w, r, "/admin/main", http.StatusFound)
 	}
 }
 
