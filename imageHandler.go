@@ -78,7 +78,14 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 		img.OriginalFileName = handler.Filename
 		img.Size = size
 		img.FileData = data
-		res := i.AddImage(&img)
+		var res *services.ImageResponse
+		res = i.AddImage(&img)
+		if res.Code == 401 {
+			// get new token
+			getRefreshToken(w, r)
+			res = i.AddImage(&img)
+		}
+		//res := i.AddImage(&img)
 		if res.Success == true {
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
@@ -130,7 +137,14 @@ func handleDeleteImage(w http.ResponseWriter, r *http.Request) {
 		i.ClientID = authCodeClient
 		i.Host = getImageHost()
 		i.Token = token.AccessToken
-		res := i.DeleteImage(id)
+		var res *services.ImageResponse
+		res = i.DeleteImage(id)
+		if res.Code == 401 {
+			// get new token
+			getRefreshToken(w, r)
+			res = i.DeleteImage(id)
+		}
+		//res := i.DeleteImage(id)
 		if res.Success != true {
 			fmt.Println("Delete image failed on ID: " + id)
 			fmt.Print("code: ")

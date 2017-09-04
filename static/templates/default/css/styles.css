@@ -50,6 +50,8 @@ body {
 .content-bar2 {
   background: #575353;
   color: gray;
+  border-bottom: 2px solid;
+  border-color: green;
 }
 .content-bar2 a:link {
   color: gray;
