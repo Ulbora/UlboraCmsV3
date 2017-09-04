@@ -120,7 +120,14 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		c.Hashed = "true"
 		c.Token = token.AccessToken
 		c.Host = getContentHost()
-		res := c.AddContent(&ct)
+		var res *services.Response
+		res = c.AddContent(&ct)
+		if res.Code == 401 {
+			// get new token
+			getRefreshToken(w, r)
+			res = c.AddContent(&ct)
+		}
+
 		fmt.Println(res)
 		if res.Success == true {
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
@@ -208,7 +215,13 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		c.Hashed = "true"
 		c.Token = token.AccessToken
 		c.Host = getContentHost()
-		res := c.UpdateContent(&ct)
+		var res *services.Response
+		res = c.UpdateContent(&ct)
+		if res.Code == 401 {
+			// get new token
+			getRefreshToken(w, r)
+			res = c.UpdateContent(&ct)
+		}
 		fmt.Println(res)
 		if res.Success == true {
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
@@ -271,7 +284,14 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 		c.Hashed = "true"
 		c.Token = token.AccessToken
 		c.Host = getContentHost()
-		res := c.DeleteContent(id)
+		//res := c.DeleteContent(id)
+		var res *services.Response
+		res = c.DeleteContent(id)
+		if res.Code == 401 {
+			// get new token
+			getRefreshToken(w, r)
+			res = c.DeleteContent(id)
+		}
 		if res.Success != true {
 			fmt.Println("Delete content failed on ID: " + id)
 			fmt.Print("code: ")

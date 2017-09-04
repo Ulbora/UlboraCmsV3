@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	oauth2 "github.com/Ulbora/go-oauth2-client"
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -109,4 +110,29 @@ func getHashedUser() string {
 	}
 	//fmt.Println(rtn)
 	return rtn
+}
+
+func getRefreshToken(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("getting refresh token")
+	var tn oauth2.AuthCodeToken
+	tn.OauthHost = getOauthHost()
+	tn.ClientID = getAuthCodeClient()
+	tn.Secret = getAuthCodeSecret()
+	tn.RefreshToken = token.RefreshToken
+	resp := tn.AuthCodeRefreshToken()
+	if resp != nil && resp.AccessToken != "" {
+		//fmt.Println(resp.AccessToken)
+		token = resp
+		session, err := s.GetSession(r)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		} else {
+			session.Values["userLoggenIn"] = true
+			session.Save(r, w)
+			//http.Redirect(res, req, "/admin/main", http.StatusFound)
+
+			// decode token and get user id
+		}
+	}
+
 }

@@ -6,11 +6,13 @@ body {
   padding: 0 0 0 0;
 }
 .nv-custom {
-  background: black;
+  background: #373434;
 }
 .content-bar1 {
-  background: black;
+  background: #373434;
   color: gray;
+  border-bottom: 2px solid;
+  border-color: green;
 }
 .content-bar1 a:link {
   color: gray;
@@ -23,30 +25,30 @@ body {
 }
 @media (min-width: 1024px) {
   .content-bar1 {
-    height: 600px;
+    height: 800px;
     font-size: 20pt;
   }
 }
 @media (max-width: 1024px) {
   .content-bar1 {
-    height: 600px;
+    height: 800px;
     font-size: 18pt;
   }
 }
 @media (max-width: 768px) {
   .content-bar1 {
-    height: 400px;
+    height: 600px;
     font-size: 14pt;
   }
 }
 @media (max-width: 480px) {
   .content-bar1 {
-    height: 400px;
+    height: 600px;
     font-size: 12pt;
   }
 }
 .content-bar2 {
-  background: #0E0D0D;
+  background: #575353;
   color: gray;
 }
 .content-bar2 a:link {
@@ -62,16 +64,19 @@ body {
 @media (min-width: 1024px) {
   .content-bar2 {
     height: 600px;
+    font-size: 14pt;
   }
 }
 @media (max-width: 1024px) {
   .content-bar2 {
     height: 600px;
+    font-size: 14pt;
   }
 }
 @media (max-width: 768px) {
   .content-bar2 {
     height: 400px;
+    font-size: 14pt;
   }
 }
 @media (max-width: 480px) {
@@ -81,7 +86,7 @@ body {
   }
 }
 .download-page {
-  background: black;
+  background: #373434;
   color: gray;
 }
 .download-page a:link {
@@ -117,6 +122,58 @@ body {
   .download-page {
     height: 400px;
     font-size: 12pt;
+  }
+}
+.main-page {
+  background: black;
+  border: 2px solid;
+  border-radius: 25px;
+  border-color: black;
+  color: gray;
+}
+.main-page a:link {
+  color: gray;
+  text-decoration: underline;
+}
+.main-page a:visited {
+  color: gray;
+  text-decoration: underline;
+}
+.main-page a:hover {
+  color: white;
+}
+@media (min-width: 1024px) {
+  .main-page {
+    width: 80%;
+    margin: 0 0 0 10%;
+    height: 600px;
+    font-size: 20pt;
+  }
+}
+@media (max-width: 1024px) {
+  .main-page {
+    width: 80%;
+    margin: 0 0 0 10%;
+    height: 600px;
+    font-size: 18pt;
+  }
+}
+@media (max-width: 768px) {
+  .main-page {
+    width: 100%;
+    margin: 0 0 0 0;
+    height: 400px;
+    font-size: 14pt;
+    border-radius: 0px;
+  }
+}
+@media (max-width: 480px) {
+  .main-page {
+    width: 100%;
+    margin: 0 0 0 0;
+    height: 400px;
+    font-size: 12pt;
+    border-radius: 0px;
   }
 }
 .footer {

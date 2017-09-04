@@ -1,6 +1,6 @@
 
-@nv-bg: black;
-@nv-bg2: #0E0D0D;
+@nv-bg: #373434;
+@nv-bg2: #575353;
 @bs-bg-dark: #343a40;
 @bs-bg-dark2: #43484D;
 @import "body.less";
@@ -17,6 +17,8 @@
 .content-bar1{
     background: @nv-bg;
     color: gray;
+    border-bottom: 2px solid;    
+    border-color: green;
     a:link{
         color: gray;              
     }
@@ -28,19 +30,19 @@
         color: white;        
     }
     @media (min-width: 1024px) { 
-        height: 600px;    
+        height: 800px;    
         font-size: 20pt;    
     }
     @media (max-width: 1024px) {
-        height: 600px;    
+        height: 800px;    
         font-size: 18pt;       
     }
     @media (max-width: 768px) {        
-        height: 400px; 
+        height: 600px; 
         font-size: 14pt;            
     }
     @media (max-width: 480px) {        
-        height: 400px;   
+        height: 600px;   
         font-size: 12pt;   
     }
     
@@ -62,13 +64,16 @@
         color: white;        
     }
     @media (min-width: 1024px) { 
-        height: 600px;        
+        height: 600px; 
+        font-size: 14pt;        
     }
     @media (max-width: 1024px) {
-        height: 600px;          
+        height: 600px;  
+        font-size: 14pt;         
     }
     @media (max-width: 768px) {        
-        height: 400px;            
+        height: 400px;   
+        font-size: 14pt;          
     }
     @media (max-width: 480px) {
         font-size: 12pt;
@@ -108,6 +113,54 @@
     @media (max-width: 480px) {        
         height: 400px;   
         font-size: 12pt;   
+    }
+    
+}
+
+
+.main-page{
+    background: black;
+    border: 2px solid;
+    border-radius: 25px;
+    border-color: black;
+    color: gray;
+    a:link{
+        color: gray;  
+        text-decoration: underline;            
+    }
+    
+    a:visited{
+        color:gray;   
+        text-decoration: underline;       
+    }
+    a:hover{
+        color: white;        
+    }
+    @media (min-width: 1024px) { 
+        width: 80%;
+        margin: 0 0 0 10%;
+        height: 600px;    
+        font-size: 20pt;    
+    }
+    @media (max-width: 1024px) {
+        width: 80%;
+        margin: 0 0 0 10%;
+        height: 600px;    
+        font-size: 18pt;       
+    }
+    @media (max-width: 768px) { 
+        width: 100%;
+        margin: 0 0 0 0;       
+        height: 400px; 
+        font-size: 14pt;    
+        border-radius: 0px;        
+    }
+    @media (max-width: 480px) { 
+        width: 100%;
+        margin: 0 0 0 0;        
+        height: 400px;   
+        font-size: 12pt; 
+        border-radius: 0px;   
     }
     
 }
