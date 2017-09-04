@@ -24,7 +24,7 @@ var templates = template.Must(template.ParseFiles("./static/templates/"+template
 
 var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
 	"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
-	"./static/admin/addContent.html",
+	"./static/admin/addContent.html", "./static/admin/images.html",
 	"./static/admin/updateContent.html", "./static/admin/mailServer.html",
 	"./static/admin/imageUpload.html"))
 
@@ -60,6 +60,9 @@ func main() {
 
 	router.HandleFunc("/admin/addImage", handleAddImage)
 	router.HandleFunc("/admin/uploadImage", handleImagerUpload)
+
+	router.HandleFunc("/admin/images", handleImages)
+	router.HandleFunc("/admin/deleteImage/{id}", handleDeleteImage)
 
 	router.HandleFunc("/admin/logout", handleLogout)
 	router.HandleFunc("/admin/logout/", handleLogout)

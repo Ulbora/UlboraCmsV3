@@ -26,6 +26,7 @@ type MailServer struct {
 	Debug            bool   `json:"debug"`
 	Username         string `json:"username"`
 	Password         string `json:"password"`
+	FromAddress      string `json:"fromAddress"`
 	ClientID         int64  `json:"clientId"`
 }
 

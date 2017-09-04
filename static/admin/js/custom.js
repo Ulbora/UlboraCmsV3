@@ -32,3 +32,11 @@ function leavePage(){
 function savePage(){
     pageSaved = true;
 }
+
+var imageId;
+function setImageId(id){
+    imageId = id;
+}
+function getImageId(){
+    return imageId;
+}

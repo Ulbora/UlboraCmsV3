@@ -36,6 +36,14 @@
     max-width: 100%; 
 }
 
+
+.image-list-view{
+    padding: 1%;      
+}
+.image-list-view img { 
+    max-width: 60%; 
+}
+
 .image-card{
     margin: 0 0 2% 0;
     padding: 2%;

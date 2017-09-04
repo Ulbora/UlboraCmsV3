@@ -80,6 +80,10 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		fmt.Print("password: ")
 		fmt.Println(password)
 
+		fromAddress := r.FormValue("fromAddress")
+		fmt.Print("fromAddress: ")
+		fmt.Println(fromAddress)
+
 		var ms services.MailServer
 		ms.ID = id
 		ms.MailServer = mailServer
@@ -100,6 +104,7 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		}
 		ms.Username = username
 		ms.Password = password
+		ms.FromAddress = fromAddress
 
 		var m services.MailServerService
 		m.ClientID = authCodeClient

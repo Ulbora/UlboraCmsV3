@@ -113,7 +113,7 @@ func TestContentService_GetContentList(t *testing.T) {
 func TestContentService_GetContentListCategory(t *testing.T) {
 	var c ContentService
 	c.Host = "http://localhost:3008"
-	res := c.GetContentListCategory("403", "books1")
+	_, res := c.GetContentListCategory("403", "books1")
 	fmt.Print("res category list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
