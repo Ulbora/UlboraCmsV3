@@ -11,4 +11,6 @@ const (
 	authCodeClient = "403"
 	authCodeSecret = "554444vfg55ggfff22454sw2fff2dsfd"
 	authCodeState  = "ghh66555h"
+
+	appType = "cms"
 )

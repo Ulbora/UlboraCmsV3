@@ -88,6 +88,16 @@ func getImageHost() string {
 	return rtn
 }
 
+func getTemplateHost() string {
+	var rtn = ""
+	if os.Getenv("TEMPLATE_HOST") != "" {
+		rtn = os.Getenv("TEMPLATE_HOST")
+	} else {
+		rtn = "http://localhost:3009"
+	}
+	return rtn
+}
+
 func getHashedUser() string {
 	var rtn string
 	//fmt.Println(token.AccessToken)

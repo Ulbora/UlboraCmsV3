@@ -40,3 +40,12 @@ function setImageId(id){
 function getImageId(){
     return imageId;
 }
+
+
+var tmplId;
+function setTemplateId(id){
+    tmplId = id;
+}
+function getTemplateId(){
+    return tmplId;
+}
