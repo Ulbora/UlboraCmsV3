@@ -152,9 +152,9 @@ func (t *TemplateService) GetTemplateList(app string, clientID string) *[]Templa
 }
 
 // DeleteTemplate delete template
-func (t *TemplateService) DeleteTemplate(id string, clientID string) *TemplateResponse {
+func (t *TemplateService) DeleteTemplate(id string) *TemplateResponse {
 	var rtn = new(TemplateResponse)
-	var gURL = t.Host + "/rs/template/delete/" + id + "/" + clientID
+	var gURL = t.Host + "/rs/template/delete/" + id + "/" + t.ClientID
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("DELETE", gURL, nil)
 	if rErr != nil {
