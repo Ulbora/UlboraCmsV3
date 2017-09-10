@@ -10,6 +10,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type uploadError struct {
+	UploadFailed bool
+}
+
 func handleTemplates(w http.ResponseWriter, r *http.Request) {
 	s.InitSessionStore(w, r)
 	session, err := s.GetSession(r)
@@ -78,6 +82,7 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		t.ClientID = authCodeClient
 		t.Host = getTemplateHost()
 		t.Token = token.AccessToken
+		dtemp := t.GetTemplate("cms", authCodeClient)
 		var tmpl services.Template
 		tmpl.Name = name
 		tmpl.Active = false
@@ -100,13 +105,21 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 			eres = ts.ExtractFile()
 		}
 		if res.Success == true && eres == true {
+			if dtemp.Active == false {
+				var tmpl services.Template
+				tmpl.Name = "default"
+				tmpl.Active = true
+				tmpl.Application = "cms"
+				t.AddTemplate(&tmpl)
+			}
 			http.Redirect(w, r, "/admin/templates", http.StatusFound)
 		} else {
 			fmt.Println("Template upload failed")
 			//http.Redirect(w, r, "/admin/addTemplate", http.StatusFound)
-
+			var uErr uploadError
+			uErr.UploadFailed = true
 			// add error handling here and pass error to page-----------------------------------
-			templatesAdmin.ExecuteTemplate(w, "templateUpload.html", nil)
+			templatesAdmin.ExecuteTemplate(w, "templateUpload.html", &uErr)
 		}
 	}
 }
@@ -142,10 +155,11 @@ func handleTemplateActive(w http.ResponseWriter, r *http.Request) {
 			res = t.UpdateTemplate(&tm)
 		}
 		//res := i.DeleteImage(id)
-		if res.Success != true {
+		if res.Success == true {
 			fmt.Println("Made template id " + idStr + " active")
 			fmt.Print("code: ")
 			fmt.Println(res.Code)
+			setTemplate()
 		}
 		http.Redirect(w, r, "/admin/templates", http.StatusFound)
 	}

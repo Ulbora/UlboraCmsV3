@@ -1,6 +1,7 @@
 package main
 
 import (
+	services "UlboraCmsV3/services"
 	"fmt"
 	"html/template"
 	"log"
@@ -17,7 +18,7 @@ import (
 var s usession.Session
 var token *oauth2.Token
 
-var templateLoc = getTemplate()
+//var templateLoc = getTemplate()
 
 var templates *template.Template
 
@@ -41,6 +42,8 @@ func main() {
 	//Web Site
 	router.HandleFunc("/", handleIndex)
 	router.HandleFunc("/{content}", handleIndex)
+	router.HandleFunc("/contact/form", handleContactForm)
+	router.HandleFunc("/contact/send", handleContactSend)
 
 	//token link
 	router.HandleFunc("/admin/token", handleToken)
@@ -82,6 +85,16 @@ func main() {
 	http.ListenAndServe(":8090", router)
 }
 func setTemplate() {
+	var templateLoc = "default"
+	var t services.TemplateService
+	t.ClientID = authCodeClient
+	t.Host = getTemplateHost()
+	tmpl := t.GetTemplate("cms", authCodeClient)
+	if tmpl.Active {
+		templateLoc = tmpl.Name
+	}
+	fmt.Println("using template " + templateLoc)
 	templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
-		"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html"))
+		"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html",
+		"./static/templates/"+templateLoc+"/contact.html"))
 }

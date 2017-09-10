@@ -1,34 +1,51 @@
 
-@nv-bg: #373434;
-@nv-bg2: #575353;
-@bs-bg-dark: #343a40;
-@bs-bg-dark2: #43484D;
+
 @import "body.less";
 
-.page-wrapper{
-    margin: 0 0 500px 0;   
-    padding: 0 0 0 0;     
-};
-
-.nv-custom{
-    background: @nv-bg;
+.header-bar{
+    width: 100%;
+    @media (min-width: 1024px) { 
+        height: 100px;              
+    }
+    @media (max-width: 1024px) {
+        height: 100px;  
+    }
+    @media (max-width: 768px) {        
+        height: 50px; 
+        font-size: 14pt;            
+    }
+    @media (max-width: 480px) {        
+        height: 40px;             
+    }    
+}
+.header-wrapper{
+    background: white;
+    padding: 1% 0 1% 0;
+}
+.logo{
+    img{
+        max-width: 10%; 
+    }    
+    display: inline;
+    padding: 0 0 0 1%;
 }
 
-.content-bar1{
-    background: @nv-bg;
-    color: gray;
+.twitter{    
+    float: right; 
+    margin: 0 1% 0 0;
+       
+}
+
+.linkedin{    
+    float: right; 
+    margin: 0 3% 0 0;
+    
+}
+
+.content-bar1{    
     border-bottom: 2px solid;    
     border-color: green;
-    a:link{
-        color: gray;              
-    }
     
-    a:visited{
-        color:gray;        
-    }
-    a:hover{
-        color: white;        
-    }
     @media (min-width: 1024px) { 
         height: 800px;    
         font-size: 20pt;    
@@ -49,22 +66,11 @@
 }
 
 
-.content-bar2{
-    background: @nv-bg2;
-    color: gray;
+.content-bar2{   
+   
     border-bottom: 2px solid;    
     border-color: green;
-    a:link{
-        color: gray;
-        margin: 0 0 1% 0;
-    }
     
-    a:visited{
-        color:gray;        
-    }
-    a:hover{
-        color: white;        
-    }
     @media (min-width: 1024px) { 
         height: 600px; 
         font-size: 14pt;        
@@ -85,21 +91,16 @@
 }
 
 
-.download-page{
-    background: @nv-bg;
-    color: gray;
-    a:link{
-        color: gray;  
+.download-page{   
+   
+    a:link{         
         text-decoration: underline;            
     }
     
-    a:visited{
-        color:gray;   
+    a:visited{       
         text-decoration: underline;       
     }
-    a:hover{
-        color: white;        
-    }
+   
     @media (min-width: 1024px) { 
         height: 600px;    
         font-size: 20pt;    
@@ -120,24 +121,16 @@
 }
 
 
-.main-page{
-    background: black;
-    border: 2px solid;
-    border-radius: 25px;
-    border-color: black;
-    color: gray;
-    a:link{
-        color: gray;  
+.main-page{    
+    
+    a:link{        
         text-decoration: underline;            
     }
     
-    a:visited{
-        color:gray;   
+    a:visited{        
         text-decoration: underline;       
     }
-    a:hover{
-        color: white;        
-    }
+    
     @media (min-width: 1024px) { 
         width: 80%;
         margin: 0 0 0 10%;
@@ -167,11 +160,20 @@
     
 }
 
+.content-title{
+    text-align: center;
+    width: 100%;
+    padding: 1% 0 0 0;    
+}
+.form-submit{
+    text-align: center;
+    width: 100%;
+    padding: 1% 0 0 0;    
+}
 
 .footer{
     text-align: center;
     width: 100%;
-    padding: 3% 0 3% 0;  
-    color: gray; 
+    padding: 3% 0 3% 0;      
 }
 

@@ -8,6 +8,11 @@
         <div class="content-title">
             <h3>Upload Template</h3>
         </div>
+        {{if .UploadFailed}}
+        <div class="alert alert-danger" role="alert">
+            Template Upload Failed!
+          </div>
+        {{end}}
         <form class="form-submit" method="post" action="/admin/uploadTemplate" enctype="multipart/form-data">
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="basic-addon1">Template Name</span>
