@@ -43,9 +43,14 @@ function getImageId(){
 
 
 var tmplId;
-function setTemplateId(id){
+var tmplName;
+function setTemplateIdAndName(id, tname){
     tmplId = id;
+    tmplName = tname;
 }
 function getTemplateId(){
     return tmplId;
+}
+function getTemplateName(){
+    return tmplName;
 }

@@ -19,8 +19,7 @@ var token *oauth2.Token
 
 var templateLoc = getTemplate()
 
-var templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
-	"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html"))
+var templates *template.Template
 
 var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
 	"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
@@ -31,6 +30,7 @@ var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.htm
 var username string
 
 func main() {
+	setTemplate()
 	s.MaxAge = sessingTimeToLive
 	s.Name = userSession
 	if os.Getenv("SESSION_SECRET_KEY") != "" {
@@ -68,7 +68,7 @@ func main() {
 	router.HandleFunc("/admin/addTemplate", handleAddTemplate)
 	router.HandleFunc("/admin/uploadTemplate", handleTemplateUpload)
 	router.HandleFunc("/admin/templateActive/{id}", handleTemplateActive)
-	router.HandleFunc("/admin/deleteTemplate/{id}", handleDeleteTemplate)
+	router.HandleFunc("/admin/deleteTemplate/{id}/{name}", handleDeleteTemplate)
 
 	router.HandleFunc("/admin/logout", handleLogout)
 	router.HandleFunc("/admin/logout/", handleLogout)
@@ -80,4 +80,8 @@ func main() {
 	fmt.Println("Ulbora CMS V3 running!")
 	log.Println("Listening on :8090...")
 	http.ListenAndServe(":8090", router)
+}
+func setTemplate() {
+	templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
+		"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html"))
 }

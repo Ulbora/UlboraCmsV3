@@ -34,7 +34,7 @@
                     <td></td>
                     {{else}}
                     <td>
-                    <button onclick="setTemplateId({{.ID}})" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button onclick="setTemplateIdAndName({{.ID}}, {{.Name}})" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                         Delete                                      
                       </button> {{end}}
                     </td>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" onclick="location.href='/admin/deleteTemplate/' + getTemplateId();">Delete</button>
+                    <button type="button" class="btn btn-danger" onclick="location.href='/admin/deleteTemplate/' + getTemplateId() + '/' + getTemplateName();">Delete</button>
                 </div>
             </div>
         </div>

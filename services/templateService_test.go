@@ -73,7 +73,7 @@ func TestTemplateService_DeleteTemplate(t *testing.T) {
 	ts.ClientID = "403"
 	ts.Host = "http://localhost:3009"
 	ts.Token = tempToken
-	res := ts.DeleteTemplate(strconv.FormatInt(tempAddID, 10), "403")
+	res := ts.DeleteTemplate(strconv.FormatInt(tempAddID, 10))
 	fmt.Print("res deleted: ")
 	fmt.Println(res)
 	if res.Success != true {

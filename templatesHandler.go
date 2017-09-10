@@ -3,6 +3,7 @@ package main
 import (
 	services "UlboraCmsV3/services"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -68,25 +69,11 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		fmt.Print("File name: ")
 		fmt.Println(handler.Filename)
 
-		// cur, err := file.Seek(0, 1)
-		// size, err := file.Seek(0, 2)
-		// _, err1 := file.Seek(cur, 0)
-		// if err1 != nil {
-		// 	fmt.Println(err1)
-		// }
+		data, err := ioutil.ReadAll(file)
+		if err != nil {
+			fmt.Println(err)
+		}
 
-		// data, err := ioutil.ReadAll(file)
-		// if err != nil {
-		// 	fmt.Println(err)
-		// }
-		//fmt.Println(data)
-
-		// fmt.Print("file size: ")
-		// fmt.Println(size)
-
-		//sEnc := b64.StdEncoding.EncodeToString(data)
-		//fmt.Print("file data: ")
-		//fmt.Println(data)
 		var t services.TemplateService
 		t.ClientID = authCodeClient
 		t.Host = getTemplateHost()
@@ -102,8 +89,17 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 			getRefreshToken(w, r)
 			res = t.AddTemplate(&tmpl)
 		}
-		//res := i.AddImage(&img)
+		var eres = false
 		if res.Success == true {
+			// untar file
+			var ts services.TemplateFileService
+			ts.OriginalFileName = handler.Filename
+			ts.Destination = "./static/templates"
+			ts.Name = name
+			ts.FileData = data
+			eres = ts.ExtractFile()
+		}
+		if res.Success == true && eres == true {
 			http.Redirect(w, r, "/admin/templates", http.StatusFound)
 		} else {
 			fmt.Println("Template upload failed")
@@ -167,6 +163,7 @@ func handleDeleteTemplate(w http.ResponseWriter, r *http.Request) {
 	} else {
 		vars := mux.Vars(r)
 		id := vars["id"]
+		name := vars["name"]
 		var t services.TemplateService
 		t.ClientID = authCodeClient
 		t.Host = getTemplateHost()
@@ -178,8 +175,14 @@ func handleDeleteTemplate(w http.ResponseWriter, r *http.Request) {
 			getRefreshToken(w, r)
 			res = t.DeleteTemplate(id)
 		}
-		//res := i.DeleteImage(id)
-		if res.Success != true {
+		var dres = false
+		if res.Success == true {
+			var ts services.TemplateFileService
+			ts.Destination = "./static/templates"
+			ts.Name = name
+			dres = ts.DeleteTemplate()
+		}
+		if res.Success != true || dres != true {
 			fmt.Println("Delete Template failed on ID: " + id)
 			fmt.Print("code: ")
 			fmt.Println(res.Code)
