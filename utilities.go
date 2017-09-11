@@ -161,3 +161,19 @@ func getRefreshToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func getCredentialsToken() {
+	fmt.Println("getting Client Credentials token")
+	var tn oauth2.ClientCredentialsToken
+	tn.OauthHost = getOauthHost()
+	tn.ClientID = getAuthCodeClient()
+	tn.Secret = getAuthCodeSecret()
+	resp := tn.ClientCredentialsToken()
+	//fmt.Print("credentils token response: ")
+	//fmt.Println(resp)
+	if resp != nil && resp.AccessToken != "" {
+		//fmt.Print("new credentials token: ")
+		//fmt.Println(resp.AccessToken)
+		credentialToken = resp
+	}
+}

@@ -33,8 +33,23 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(cres)
 	if cres.Success == true {
 		// get client token
+		getCredentialsToken()
+		var m services.MailServerService
+		m.ClientID = authCodeClient
+		m.Token = credentialToken.AccessToken
+		m.Host = getMailHost()
+		var mm services.MailMessage
+		mm.FromEmail = fromEmail
+		mm.Subject = "Ulbora CMS V3 message"
+		mm.TextMessage = text
+		mres := m.SendMail(&mm)
+		fmt.Print("Send Mail Res: ")
+		fmt.Println(mres)
+		if mres.Success != true {
+			fmt.Println("Sending mail failed from " + fromEmail)
+		}
 	}
-	templates.ExecuteTemplate(w, "index.html", nil)
+	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 func handleContactForm(w http.ResponseWriter, r *http.Request) {

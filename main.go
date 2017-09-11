@@ -17,6 +17,7 @@ import (
 
 var s usession.Session
 var token *oauth2.Token
+var credentialToken *oauth2.Token
 
 //var templateLoc = getTemplate()
 
