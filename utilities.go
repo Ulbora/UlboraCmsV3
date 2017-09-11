@@ -98,6 +98,16 @@ func getTemplateHost() string {
 	return rtn
 }
 
+func getChallengeHost() string {
+	var rtn = ""
+	if os.Getenv("CHALLENGE_HOST") != "" {
+		rtn = os.Getenv("CHALLENGE_HOST")
+	} else {
+		rtn = "http://localhost:3003"
+	}
+	return rtn
+}
+
 func getHashedUser() string {
 	var rtn string
 	//fmt.Println(token.AccessToken)

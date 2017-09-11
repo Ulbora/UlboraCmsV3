@@ -22,7 +22,7 @@
             <br>      
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="basic-addon1">Challenge</span>
-                <input name="question" disabled type="text" class="form-control"  aria-label="fromEmail" aria-describedby="sizing-addon1" value="some question">
+                <input name="question" disabled type="text" class="form-control"  aria-label="fromEmail" aria-describedby="sizing-addon1" value="{{.Question}}">
             </div>   
             <br>
             <div class="input-group input-group-lg">
@@ -31,7 +31,7 @@
                          required>
             </div>            
             <br>  
-            <input name="key" type="hidden" value="">
+            <input name="key" type="hidden" value="{{.Key}}">
             <div class="form-submit">
                 <button class="btn btn-secondary" type="submit">Submit</button>
             </div>

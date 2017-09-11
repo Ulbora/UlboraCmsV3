@@ -1,5 +1,5 @@
 body {
-  background: #E4E1E1;
+  background: #FDFAFA;
   color: black;
 }
 body a:link {
@@ -183,7 +183,7 @@ body a:hover {
 .content-title {
   text-align: center;
   width: 100%;
-  padding: 1% 0 0 0;
+  padding: 2% 0 1% 0;
 }
 .form-submit {
   text-align: center;
