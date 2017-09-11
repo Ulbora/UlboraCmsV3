@@ -163,6 +163,16 @@ body {
     border-radius: 0px;
   }
 }
+.content-title {
+  text-align: center;
+  width: 100%;
+  padding: 2% 0 1% 0;
+}
+.form-submit {
+  text-align: center;
+  width: 100%;
+  padding: 1% 0 0 0;
+}
 .footer {
   text-align: center;
   width: 100%;
