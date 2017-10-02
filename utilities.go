@@ -29,6 +29,16 @@ func getAuthCodeClient() string {
 	return rtn
 }
 
+func getGatewayAPIKey() string {
+	var rtn = ""
+	if os.Getenv("GATEWAY_API_KEY") != "" {
+		rtn = os.Getenv("GATEWAY_API_KEY")
+	} else {
+		rtn = authCodeClient
+	}
+	return rtn
+}
+
 func getAuthCodeSecret() string {
 	var rtn = ""
 	if os.Getenv("AUTH_CODE_CLIENT_SECRET") != "" {
@@ -60,50 +70,60 @@ func getRedirectURI(req *http.Request, path string) string {
 
 func getContentHost() string {
 	var rtn = ""
-	if os.Getenv("CONTENT_HOST") != "" {
+	if os.Getenv("API_GATEWAY_HOST") != "" {
+		rtn = os.Getenv("API_GATEWAY_HOST")
+	} else if os.Getenv("CONTENT_HOST") != "" {
 		rtn = os.Getenv("CONTENT_HOST")
 	} else {
-		rtn = "http://localhost:3008"
+		rtn = "http://localhost:3011/content"
 	}
 	return rtn
 }
 
 func getMailHost() string {
 	var rtn = ""
-	if os.Getenv("MAIL_HOST") != "" {
+	if os.Getenv("API_GATEWAY_HOST") != "" {
+		rtn = os.Getenv("API_GATEWAY_HOST")
+	} else if os.Getenv("MAIL_HOST") != "" {
 		rtn = os.Getenv("MAIL_HOST")
 	} else {
-		rtn = "http://localhost:3002"
+		rtn = "http://localhost:3011/mail"
 	}
 	return rtn
 }
 
 func getImageHost() string {
 	var rtn = ""
-	if os.Getenv("IMAGE_HOST") != "" {
+	if os.Getenv("API_GATEWAY_HOST") != "" {
+		rtn = os.Getenv("API_GATEWAY_HOST")
+	} else if os.Getenv("IMAGE_HOST") != "" {
 		rtn = os.Getenv("IMAGE_HOST")
 	} else {
-		rtn = "http://localhost:3007"
+		rtn = "http://localhost:3011/image"
 	}
 	return rtn
 }
 
 func getTemplateHost() string {
 	var rtn = ""
-	if os.Getenv("TEMPLATE_HOST") != "" {
+	if os.Getenv("API_GATEWAY_HOST") != "" {
+		rtn = os.Getenv("API_GATEWAY_HOST")
+	} else if os.Getenv("TEMPLATE_HOST") != "" {
 		rtn = os.Getenv("TEMPLATE_HOST")
 	} else {
-		rtn = "http://localhost:3009"
+		rtn = "http://localhost:3011/template"
 	}
 	return rtn
 }
 
 func getChallengeHost() string {
 	var rtn = ""
-	if os.Getenv("CHALLENGE_HOST") != "" {
+	if os.Getenv("API_GATEWAY_HOST") != "" {
+		rtn = os.Getenv("API_GATEWAY_HOST")
+	} else if os.Getenv("CHALLENGE_HOST") != "" {
 		rtn = os.Getenv("CHALLENGE_HOST")
 	} else {
-		rtn = "http://localhost:3003"
+		rtn = "http://localhost:3011/challenge"
 	}
 	return rtn
 }

@@ -12,6 +12,7 @@ import (
 type TemplateService struct {
 	Token    string
 	ClientID string
+	APIKey   string
 	UserID   string
 	Hashed   string
 	Host     string
@@ -52,6 +53,7 @@ func (t *TemplateService) AddTemplate(tmpl *Template) *TemplateResponse {
 			req.Header.Set("clientId", t.ClientID)
 			req.Header.Set("userId", t.UserID)
 			req.Header.Set("hashed", t.Hashed)
+			req.Header.Set("apiKey", t.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -91,6 +93,7 @@ func (t *TemplateService) UpdateTemplate(tmpl *Template) *TemplateResponse {
 			req.Header.Set("clientId", t.ClientID)
 			req.Header.Set("userId", t.UserID)
 			req.Header.Set("hashed", t.Hashed)
+			req.Header.Set("apiKey", t.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -115,18 +118,40 @@ func (t *TemplateService) GetTemplate(app string, clientID string) *Template {
 	var rtn = new(Template)
 	var gURL = t.Host + "/rs/template/get/" + app + "/" + clientID
 	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
-	//fmt.Println(resp)
-	if err != nil {
-		panic(err)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
+		req.Header.Set("clientId", t.ClientID)
+		req.Header.Set("apiKey", t.APIKey)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("Template Service read err: ")
+			fmt.Println(cErr)
+		} else {
+			defer resp.Body.Close()
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
+			}
 		}
 	}
+
+	// resp, err := http.Get(gURL)
+	// //fmt.Println(resp)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+	// 	defer resp.Body.Close()
+	// 	decoder := json.NewDecoder(resp.Body)
+	// 	error := decoder.Decode(&rtn)
+	// 	if error != nil {
+	// 		log.Println(error.Error())
+	// 	}
+	// }
 	return rtn
 }
 
@@ -135,19 +160,41 @@ func (t *TemplateService) GetTemplateList(app string, clientID string) *[]Templa
 	var rtn = make([]Template, 0)
 	var gURL = t.Host + "/rs/template/list/" + app + "/" + clientID
 	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
-	fmt.Print("get template list")
-	fmt.Println(resp.Body)
-	if err != nil {
-		panic(err)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
+		req.Header.Set("clientId", t.ClientID)
+		req.Header.Set("apiKey", t.APIKey)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("Template Service read err: ")
+			fmt.Println(cErr)
+		} else {
+			defer resp.Body.Close()
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
+			}
 		}
 	}
+
+	// resp, err := http.Get(gURL)
+	// fmt.Print("get template list")
+	// fmt.Println(resp.Body)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+	// 	defer resp.Body.Close()
+	// 	decoder := json.NewDecoder(resp.Body)
+	// 	error := decoder.Decode(&rtn)
+	// 	if error != nil {
+	// 		log.Println(error.Error())
+	// 	}
+	// }
 	return &rtn
 }
 
@@ -166,6 +213,7 @@ func (t *TemplateService) DeleteTemplate(id string) *TemplateResponse {
 		req.Header.Set("clientId", t.ClientID)
 		req.Header.Set("userId", t.UserID)
 		req.Header.Set("hashed", t.Hashed)
+		req.Header.Set("apiKey", t.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {

@@ -28,8 +28,10 @@ func handleAdminIndex(w http.ResponseWriter, r *http.Request) {
 		authorize(w, r)
 	} else {
 		var c services.ContentService
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
 		c.Host = getContentHost()
-		res := c.GetContentList(authCodeClient)
+		res := c.GetContentList(getAuthCodeClient())
 		templatesAdmin.ExecuteTemplate(w, "index.html", &res)
 	}
 }
@@ -48,7 +50,8 @@ func handleAddContent(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(s)
 	} else {
 		var i services.ImageService
-		i.ClientID = authCodeClient
+		i.ClientID = getAuthCodeClient()
+		i.APIKey = getGatewayAPIKey()
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 		i.Token = token.AccessToken
@@ -115,7 +118,8 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 		var c services.ContentService
-		c.ClientID = authCodeClient
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
 		c.UserID = getHashedUser()
 		c.Hashed = "true"
 		c.Token = token.AccessToken
@@ -210,7 +214,8 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 			ct.Archived = false
 		}
 		var c services.ContentService
-		c.ClientID = authCodeClient
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
 		c.UserID = getHashedUser()
 		c.Hashed = "true"
 		c.Token = token.AccessToken
@@ -245,11 +250,14 @@ func handleGetContent(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id := vars["id"]
 		var c services.ContentService
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
 		c.Host = getContentHost()
-		res := c.GetContent(id, authCodeClient)
+		res := c.GetContent(id, getAuthCodeClient())
 
 		var i services.ImageService
-		i.ClientID = authCodeClient
+		i.ClientID = getAuthCodeClient()
+		i.APIKey = getGatewayAPIKey()
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 		i.Token = token.AccessToken
@@ -279,7 +287,8 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id := vars["id"]
 		var c services.ContentService
-		c.ClientID = authCodeClient
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
 		c.UserID = getHashedUser()
 		c.Hashed = "true"
 		c.Token = token.AccessToken

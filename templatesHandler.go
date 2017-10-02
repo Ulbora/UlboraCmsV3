@@ -26,7 +26,9 @@ func handleTemplates(w http.ResponseWriter, r *http.Request) {
 	} else {
 		var t services.TemplateService
 		t.Host = getTemplateHost()
-		res := t.GetTemplateList(appType, authCodeClient)
+		t.ClientID = getAuthCodeClient()
+		t.APIKey = getGatewayAPIKey()
+		res := t.GetTemplateList(appType, getAuthCodeClient())
 		templatesAdmin.ExecuteTemplate(w, "templates.html", &res)
 	}
 }
@@ -79,10 +81,11 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		}
 
 		var t services.TemplateService
-		t.ClientID = authCodeClient
+		t.ClientID = getAuthCodeClient()
+		t.APIKey = getGatewayAPIKey()
 		t.Host = getTemplateHost()
 		t.Token = token.AccessToken
-		dtemp := t.GetTemplate("cms", authCodeClient)
+		dtemp := t.GetTemplate("cms", getAuthCodeClient())
 		var tmpl services.Template
 		tmpl.Name = name
 		tmpl.Active = false
@@ -141,7 +144,8 @@ func handleTemplateActive(w http.ResponseWriter, r *http.Request) {
 			fmt.Print(errID)
 		}
 		var t services.TemplateService
-		t.ClientID = authCodeClient
+		t.ClientID = getAuthCodeClient()
+		t.APIKey = getGatewayAPIKey()
 		t.Host = getTemplateHost()
 		t.Token = token.AccessToken
 		var tm services.Template
@@ -179,7 +183,8 @@ func handleDeleteTemplate(w http.ResponseWriter, r *http.Request) {
 		id := vars["id"]
 		name := vars["name"]
 		var t services.TemplateService
-		t.ClientID = authCodeClient
+		t.ClientID = getAuthCodeClient()
+		t.APIKey = getGatewayAPIKey()
 		t.Host = getTemplateHost()
 		t.Token = token.AccessToken
 		var res *services.TemplateResponse

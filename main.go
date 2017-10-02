@@ -88,9 +88,9 @@ func main() {
 func setTemplate() {
 	var templateLoc = "default"
 	var t services.TemplateService
-	t.ClientID = authCodeClient
+	t.ClientID = getAuthCodeClient()
 	t.Host = getTemplateHost()
-	tmpl := t.GetTemplate("cms", authCodeClient)
+	tmpl := t.GetTemplate("cms", getAuthCodeClient())
 	if tmpl.Active {
 		templateLoc = tmpl.Name
 	}

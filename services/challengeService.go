@@ -10,7 +10,9 @@ import (
 
 //ChallengeService service
 type ChallengeService struct {
-	Host string
+	Host     string
+	ClientID string
+	APIKey   string
 }
 
 //Challenge template
@@ -41,6 +43,8 @@ func (c *ChallengeService) SendChallenge(chal *Challenge) *ChallengeResponse {
 			fmt.Println(rErr)
 		} else {
 			req.Header.Set("Content-Type", "application/json")
+			req.Header.Set("clientId", c.ClientID)
+			req.Header.Set("apiKey", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -65,17 +69,41 @@ func (c *ChallengeService) GetChallenge(lan string) *Challenge {
 	var rtn = new(Challenge)
 	var gURL = c.Host + "/rs/challenge/" + lan
 	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
-	//fmt.Println(resp)
-	if err != nil {
-		panic(err)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
+		req.Header.Set("clientId", c.ClientID)
+		req.Header.Set("apiKey", c.APIKey)
+		//req.Header.Set("userId", m.UserID)
+		//req.Header.Set("hashed", m.Hashed)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("challange get err: ")
+			fmt.Println(cErr)
+		} else {
+			defer resp.Body.Close()
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
+			}
 		}
 	}
+
+	// resp, err := http.Get(gURL)
+	// //fmt.Println(resp)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+	// 	defer resp.Body.Close()
+	// 	decoder := json.NewDecoder(resp.Body)
+	// 	error := decoder.Decode(&rtn)
+	// 	if error != nil {
+	// 		log.Println(error.Error())
+	// 	}
+	// }
 	return rtn
 }

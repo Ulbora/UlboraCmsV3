@@ -18,11 +18,12 @@ func handleMailServer(w http.ResponseWriter, r *http.Request) {
 		authorize(w, r)
 	} else {
 		var m services.MailServerService
-		m.ClientID = authCodeClient
+		m.ClientID = getAuthCodeClient()
 		//m.UserID = getHashedUser()
 		//m.Hashed = "true"
 		m.Token = token.AccessToken
 		m.Host = getMailHost()
+		m.APIKey = getGatewayAPIKey()
 		res := m.GetMailServer()
 		if res.Server.ID == 0 {
 			res.Server.Port = 465
@@ -87,7 +88,7 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		var ms services.MailServer
 		ms.ID = id
 		ms.MailServer = mailServer
-		ms.MailServer = mailServer
+		//ms.MailServer = mailServer
 		if secureConnection == "on" {
 			ms.SecureConnection = true
 		} else {
@@ -107,11 +108,12 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		ms.FromAddress = fromAddress
 
 		var m services.MailServerService
-		m.ClientID = authCodeClient
+		m.ClientID = getAuthCodeClient()
 		//m.UserID = getHashedUser()
 		//m.Hashed = "true"
 		m.Token = token.AccessToken
 		m.Host = getMailHost()
+		m.APIKey = getGatewayAPIKey()
 		var res *services.MailResponse
 		if id == 0 {
 			res = m.AddMailServer(&ms)

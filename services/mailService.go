@@ -12,6 +12,7 @@ import (
 type MailServerService struct {
 	Token    string
 	ClientID string
+	APIKey   string
 	UserID   string
 	Hashed   string
 	Host     string
@@ -72,6 +73,7 @@ func (m *MailServerService) AddMailServer(mailServer *MailServer) *MailResponse 
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
+			req.Header.Set("apiKey", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -110,6 +112,7 @@ func (m *MailServerService) UpdateMailServer(mailServer *MailServer) *MailRespon
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
+			req.Header.Set("apiKey", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -141,6 +144,7 @@ func (m *MailServerService) GetMailServer() *MailServerResponse {
 	} else {
 		req.Header.Set("Authorization", "Bearer "+m.Token)
 		req.Header.Set("clientId", m.ClientID)
+		req.Header.Set("apiKey", m.APIKey)
 		//req.Header.Set("userId", m.UserID)
 		//req.Header.Set("hashed", m.Hashed)
 		client := &http.Client{}
@@ -179,6 +183,7 @@ func (m *MailServerService) SendMail(mailMessage *MailMessage) *MailResponse {
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
+			req.Header.Set("apiKey", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {

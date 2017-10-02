@@ -25,6 +25,8 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(text)
 	var c services.ChallengeService
 	c.Host = getChallengeHost()
+	c.ClientID = getAuthCodeClient()
+	c.APIKey = getGatewayAPIKey()
 	var ch services.Challenge
 	ch.Answer = ans
 	ch.Key = key
@@ -35,7 +37,8 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 		// get client token
 		getCredentialsToken()
 		var m services.MailServerService
-		m.ClientID = authCodeClient
+		m.ClientID = getAuthCodeClient()
+		m.APIKey = getGatewayAPIKey()
 		m.Token = credentialToken.AccessToken
 		m.Host = getMailHost()
 		var mm services.MailMessage
@@ -55,6 +58,8 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 func handleContactForm(w http.ResponseWriter, r *http.Request) {
 	var c services.ChallengeService
 	c.Host = getChallengeHost()
+	c.ClientID = getAuthCodeClient()
+	c.APIKey = getGatewayAPIKey()
 	res := c.GetChallenge("en_us")
 	fmt.Print("challenge: ")
 	fmt.Println(res)

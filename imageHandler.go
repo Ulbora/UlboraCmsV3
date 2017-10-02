@@ -70,7 +70,8 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 		//fmt.Print("file data: ")
 		//fmt.Println(data)
 		var i services.ImageService
-		i.ClientID = authCodeClient
+		i.ClientID = getAuthCodeClient()
+		i.APIKey = getGatewayAPIKey()
 		i.Host = getImageHost()
 		i.Token = token.AccessToken
 		var img services.UploadedFile
@@ -106,14 +107,15 @@ func handleImages(w http.ResponseWriter, r *http.Request) {
 		authorize(w, r)
 	} else {
 		var i services.ImageService
-		i.ClientID = authCodeClient
+		i.ClientID = getAuthCodeClient()
+		i.APIKey = getGatewayAPIKey()
 		i.Host = getImageHost()
 		i.Token = token.AccessToken
 		//i.UserID = getHashedUser()
 		//i.Hashed = "true"
 
 		//fmt.Println(token.AccessToken)
-		i.Host = getImageHost()
+		//i.Host = getImageHost()
 
 		res := i.GetList()
 
@@ -134,7 +136,8 @@ func handleDeleteImage(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id := vars["id"]
 		var i services.ImageService
-		i.ClientID = authCodeClient
+		i.ClientID = getAuthCodeClient()
+		i.APIKey = getGatewayAPIKey()
 		i.Host = getImageHost()
 		i.Token = token.AccessToken
 		var res *services.ImageResponse

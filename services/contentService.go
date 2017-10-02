@@ -15,6 +15,7 @@ import (
 type ContentService struct {
 	Token    string
 	ClientID string
+	APIKey   string
 	UserID   string
 	Hashed   string
 	Host     string
@@ -75,6 +76,7 @@ func (c *ContentService) AddContent(content *Content) *Response {
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
+			req.Header.Set("apiKey", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -114,6 +116,7 @@ func (c *ContentService) UpdateContent(content *Content) *Response {
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
+			req.Header.Set("apiKey", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -153,6 +156,7 @@ func (c *ContentService) UpdateContentHits(content *Content) *Response {
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
+			req.Header.Set("apiKey", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -176,25 +180,52 @@ func (c *ContentService) UpdateContentHits(content *Content) *Response {
 func (c *ContentService) GetContent(id string, clientID string) *Content {
 	var rtn = new(Content)
 	var gURL = c.Host + "/rs/content/get/" + id + "/" + clientID
-	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
-	//fmt.Println(resp)
-	if err != nil {
-		panic(err)
+	fmt.Println(gURL)
+	//resp, err := http.Get(gURL)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
-		}
-		txt, err := b64.StdEncoding.DecodeString(rtn.Text)
-		if err != nil {
-			fmt.Println(err)
+		req.Header.Set("clientId", c.ClientID)
+		req.Header.Set("apiKey", c.APIKey)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("Content Service read err: ")
+			fmt.Println(cErr)
 		} else {
-			rtn.Text = string(txt)
+			defer resp.Body.Close()
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
+			}
+			txt, err := b64.StdEncoding.DecodeString(rtn.Text)
+			if err != nil {
+				fmt.Println(err)
+			} else {
+				rtn.Text = string(txt)
+			}
 		}
 	}
+	//fmt.Println(resp)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+	// 	defer resp.Body.Close()
+	// 	decoder := json.NewDecoder(resp.Body)
+	// 	error := decoder.Decode(&rtn)
+	// 	if error != nil {
+	// 		log.Println(error.Error())
+	// 	}
+	// 	txt, err := b64.StdEncoding.DecodeString(rtn.Text)
+	// 	if err != nil {
+	// 		fmt.Println(err)
+	// 	} else {
+	// 		rtn.Text = string(txt)
+	// 	}
+	// }
 	return rtn
 }
 
@@ -203,33 +234,69 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 	var rtn = make([]Content, 0)
 	var gURL = c.Host + "/rs/content/list/" + clientID
 	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
-	fmt.Print("get list")
-	fmt.Println(resp.Body)
-	if err != nil {
-		panic(err)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		//var cont = new(Content)
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
-		}
-		for r := range rtn {
-			txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				rtn[r].Text = string(txt)
-				//fmt.Println(rtn[r].Text)
+		req.Header.Set("clientId", c.ClientID)
+		req.Header.Set("apiKey", c.APIKey)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("Content Service read err: ")
+			fmt.Println(cErr)
+		} else {
+			defer resp.Body.Close()
+			//var cont = new(Content)
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
 			}
-			//fmt.Println(rtn[r].ModifiedDate.Year())
-			if rtn[r].ModifiedDate.Year() != 1 {
-				rtn[r].UseModifiedDate = true
+			for r := range rtn {
+				txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
+				if err != nil {
+					fmt.Println(err)
+				} else {
+					rtn[r].Text = string(txt)
+					//fmt.Println(rtn[r].Text)
+				}
+				//fmt.Println(rtn[r].ModifiedDate.Year())
+				if rtn[r].ModifiedDate.Year() != 1 {
+					rtn[r].UseModifiedDate = true
+				}
 			}
 		}
 	}
+
+	// resp, err := http.Get(gURL)
+	// fmt.Print("get list")
+	// fmt.Println(resp.Body)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+	// 	defer resp.Body.Close()
+	// 	//var cont = new(Content)
+	// 	decoder := json.NewDecoder(resp.Body)
+	// 	error := decoder.Decode(&rtn)
+	// 	if error != nil {
+	// 		log.Println(error.Error())
+	// 	}
+	// 	for r := range rtn {
+	// 		txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
+	// 		if err != nil {
+	// 			fmt.Println(err)
+	// 		} else {
+	// 			rtn[r].Text = string(txt)
+	// 			//fmt.Println(rtn[r].Text)
+	// 		}
+	// 		//fmt.Println(rtn[r].ModifiedDate.Year())
+	// 		if rtn[r].ModifiedDate.Year() != 1 {
+	// 			rtn[r].UseModifiedDate = true
+	// 		}
+	// 	}
+	// }
 	return &rtn
 }
 
@@ -239,40 +306,56 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 	var pghead = new(PageHead)
 	var gURL = c.Host + "/rs/content/list/" + clientID + "/" + category
 	//fmt.Println(gURL)
-	resp, err := http.Get(gURL)
+	//resp, err := http.Get(gURL)
 	fmt.Print("get category list")
-	fmt.Println(resp)
-	if err != nil {
-		panic(err)
+	req, rErr := http.NewRequest("GET", gURL, nil)
+	if rErr != nil {
+		fmt.Print("request err: ")
+		fmt.Println(rErr)
 	} else {
-		defer resp.Body.Close()
-		//var cont = new(Content)
-		decoder := json.NewDecoder(resp.Body)
-		error := decoder.Decode(&rtn)
-		if error != nil {
-			log.Println(error.Error())
-		}
-		for r := range rtn {
-			txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
-			if err != nil {
-				fmt.Println(err)
-			} else {
-				rtn[r].Text = string(txt)
-				//fmt.Println(rtn[r].Text)
-				rtn[r].TextHTML = template.HTML(rtn[r].Text)
-				if r == 0 {
-					pghead.MetaAuthor = rtn[r].MetaAuthorName
-					pghead.MetaDesc = rtn[r].MetaDesc
-					pghead.MetaKeyWords = rtn[r].MetaKeyWords
-					pghead.Title = rtn[r].Title
-				}
+		req.Header.Set("clientId", c.ClientID)
+		req.Header.Set("apiKey", c.APIKey)
+		client := &http.Client{}
+		resp, cErr := client.Do(req)
+		if cErr != nil {
+			fmt.Print("Content Service read err: ")
+			fmt.Println(cErr)
+		} else {
+			defer resp.Body.Close()
+			//var cont = new(Content)
+			decoder := json.NewDecoder(resp.Body)
+			error := decoder.Decode(&rtn)
+			if error != nil {
+				log.Println(error.Error())
 			}
-			//fmt.Println(rtn[r].ModifiedDate.Year())
-			if rtn[r].ModifiedDate.Year() != 1 {
-				rtn[r].UseModifiedDate = true
+			for r := range rtn {
+				txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
+				if err != nil {
+					fmt.Println(err)
+				} else {
+					rtn[r].Text = string(txt)
+					//fmt.Println(rtn[r].Text)
+					rtn[r].TextHTML = template.HTML(rtn[r].Text)
+					if r == 0 {
+						pghead.MetaAuthor = rtn[r].MetaAuthorName
+						pghead.MetaDesc = rtn[r].MetaDesc
+						pghead.MetaKeyWords = rtn[r].MetaKeyWords
+						pghead.Title = rtn[r].Title
+					}
+				}
+				//fmt.Println(rtn[r].ModifiedDate.Year())
+				if rtn[r].ModifiedDate.Year() != 1 {
+					rtn[r].UseModifiedDate = true
+				}
 			}
 		}
 	}
+	// fmt.Println(resp)
+	// if err != nil {
+	// 	panic(err)
+	// } else {
+
+	// }
 	return pghead, &rtn
 }
 
@@ -291,6 +374,7 @@ func (c *ContentService) DeleteContent(id string) *Response {
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("userId", c.UserID)
 		req.Header.Set("hashed", c.Hashed)
+		req.Header.Set("apiKey", c.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {

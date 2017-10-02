@@ -23,8 +23,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		page = "home"
 	}
 	var c services.ContentService
+	c.ClientID = getAuthCodeClient()
+	c.APIKey = getGatewayAPIKey()
 	c.Host = getContentHost()
-	h, res := c.GetContentListCategory(authCodeClient, page)
+	h, res := c.GetContentListCategory(getAuthCodeClient(), page)
 	var pg = new(pageContent)
 	pg.Cont = res
 	pg.MetaAuthor = h.MetaAuthor

@@ -14,6 +14,7 @@ import (
 type ImageService struct {
 	Token    string
 	ClientID string
+	APIKey   string
 	UserID   string
 	Hashed   string
 	Host     string
@@ -76,6 +77,7 @@ func (i *ImageService) AddImage(image *UploadedFile) *ImageResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+i.Token)
 			req.Header.Set("clientId", i.ClientID)
+			req.Header.Set("apiKey", i.APIKey)
 			//req.Header.Set("userId", i.UserID)
 			//req.Header.Set("hashed", i.Hashed)
 			client := &http.Client{}
@@ -109,6 +111,7 @@ func (i *ImageService) GetList() *[]Image {
 	} else {
 		req.Header.Set("Authorization", "Bearer "+i.Token)
 		req.Header.Set("clientId", i.ClientID)
+		req.Header.Set("apiKey", i.APIKey)
 		//req.Header.Set("userId", m.UserID)
 		//req.Header.Set("hashed", m.Hashed)
 		client := &http.Client{}
@@ -143,6 +146,7 @@ func (i *ImageService) DeleteImage(id string) *ImageResponse {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+i.Token)
 		req.Header.Set("clientId", i.ClientID)
+		req.Header.Set("apiKey", i.APIKey)
 		//req.Header.Set("userId", i.UserID)
 		//req.Header.Set("hashed", i.Hashed)
 		client := &http.Client{}
