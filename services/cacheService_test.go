@@ -1,147 +1,107 @@
 package services
 
 import (
-	"reflect"
+	"fmt"
 	"testing"
 )
 
-func TestContentService_CachePage(t *testing.T) {
-	type fields struct {
-		Token    string
-		ClientID string
-		APIKey   string
-		UserID   string
-		Hashed   string
-		Host     string
-	}
-	type args struct {
-		clientID string
-		pageName string
-		page     PageCache
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		c := &ContentService{
-			Token:    tt.fields.Token,
-			ClientID: tt.fields.ClientID,
-			APIKey:   tt.fields.APIKey,
-			UserID:   tt.fields.UserID,
-			Hashed:   tt.fields.Hashed,
-			Host:     tt.fields.Host,
-		}
-		c.CachePage(tt.args.clientID, tt.args.pageName, tt.args.page)
-	}
-}
+var ccidStr = "111"
+var ccid int64 = 111
 
-func TestContentService_ReadPage(t *testing.T) {
-	type fields struct {
-		Token    string
-		ClientID string
-		APIKey   string
-		UserID   string
-		Hashed   string
-		Host     string
+func TestCacheService_CachePage(t *testing.T) {
+	var c CacheService
+	c.ClientID = ccidStr
+	var p PageCache
+
+	var ct Content
+	ct.Category = "main"
+	ct.ID = 1
+	ct.Hits = 99
+	ct.ClientID = ccid
+	clist := make([]Content, 0)
+	clist = append(clist, ct)
+	p.PageName = "main"
+	p.PageContent = &clist
+
+	c.CachePage(p)
+	cp := c.ReadPage("main")
+	//print("hits: ")
+	//println(cp)
+	if len(*cp.Hits) != 1 {
+		t.Fail()
 	}
-	type args struct {
-		clientID string
-		pageName string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-		want   *PageHead
-		want1  *[]Content
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		c := &ContentService{
-			Token:    tt.fields.Token,
-			ClientID: tt.fields.ClientID,
-			APIKey:   tt.fields.APIKey,
-			UserID:   tt.fields.UserID,
-			Hashed:   tt.fields.Hashed,
-			Host:     tt.fields.Host,
+	for _, page := range *cp.PageContent {
+		fmt.Print("page name: ")
+		fmt.Println(page.Category)
+		fmt.Print("page id: ")
+		fmt.Println(page.ID)
+		fmt.Print("page hits: ")
+		fmt.Println(page.Hits)
+		if page.ID != 1 {
+			t.Fail()
 		}
-		got, got1 := c.ReadPage(tt.args.clientID, tt.args.pageName)
-		if !reflect.DeepEqual(got, tt.want) {
-			t.Errorf("%q. ContentService.ReadPage() got = %v, want %v", tt.name, got, tt.want)
-		}
-		if !reflect.DeepEqual(got1, tt.want1) {
-			t.Errorf("%q. ContentService.ReadPage() got1 = %v, want %v", tt.name, got1, tt.want1)
+	}
+	for _, page := range *cp.Hits {
+		fmt.Print("page hit to updated to database: ")
+		fmt.Println(page.Hits)
+		if page.Hits != 100 {
+			t.Fail()
 		}
 	}
 }
 
-func TestContentService_RemovePage(t *testing.T) {
-	type fields struct {
-		Token    string
-		ClientID string
-		APIKey   string
-		UserID   string
-		Hashed   string
-		Host     string
+func TestCacheService_ReadPage(t *testing.T) {
+	var c CacheService
+	c.ClientID = ccidStr
+	cp := c.ReadPage("main")
+	//print("hits: ")
+	//println(cp)
+	if cp.Hits != nil && len(*cp.Hits) != 0 {
+		t.Fail()
 	}
-	type args struct {
-		clientID string
-		pageName string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		c := &ContentService{
-			Token:    tt.fields.Token,
-			ClientID: tt.fields.ClientID,
-			APIKey:   tt.fields.APIKey,
-			UserID:   tt.fields.UserID,
-			Hashed:   tt.fields.Hashed,
-			Host:     tt.fields.Host,
+	for _, page := range *cp.PageContent {
+		fmt.Print("page name: ")
+		fmt.Println(page.Category)
+		fmt.Print("page id: ")
+		fmt.Println(page.ID)
+		fmt.Print("page hits: ")
+		fmt.Println(page.Hits)
+		if page.ID != 1 || page.Hits != 1 {
+			t.Fail()
 		}
-		c.RemovePage(tt.args.clientID, tt.args.pageName)
 	}
 }
 
-func TestContentService_DeletePage(t *testing.T) {
-	type fields struct {
-		Token    string
-		ClientID string
-		APIKey   string
-		UserID   string
-		Hashed   string
-		Host     string
-	}
-	type args struct {
-		clientID string
-		pageName string
-	}
-	tests := []struct {
-		name   string
-		fields fields
-		args   args
-	}{
-	// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		c := &ContentService{
-			Token:    tt.fields.Token,
-			ClientID: tt.fields.ClientID,
-			APIKey:   tt.fields.APIKey,
-			UserID:   tt.fields.UserID,
-			Hashed:   tt.fields.Hashed,
-			Host:     tt.fields.Host,
+func TestCacheService_RemovePage(t *testing.T) {
+	var c CacheService
+	c.ClientID = ccidStr
+	h := c.RemovePage("main")
+	for _, hit := range *h {
+		fmt.Print("page hit to updated to database: ")
+		fmt.Println(hit.Hits)
+		if hit.Hits != 1 {
+			t.Fail()
 		}
-		c.DeletePage(tt.args.clientID, tt.args.pageName)
+	}
+}
+
+func TestCacheService_DeletePage(t *testing.T) {
+	var c CacheService
+	c.ClientID = ccidStr
+	c.DeletePage("main")
+	cp := c.ReadPage("main")
+	fmt.Print("page after delete: ")
+	fmt.Println(cp)
+
+	fmt.Print("page content after delete: ")
+	fmt.Println(cp.PageContent)
+
+	fmt.Print("page hits after delete: ")
+	fmt.Println(cp.Hits)
+
+	fmt.Print("page header after delete: ")
+	fmt.Println(cp.PageHeader)
+	if cp.PageHeader != nil {
+		t.Fail()
 	}
 }
