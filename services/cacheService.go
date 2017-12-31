@@ -7,6 +7,7 @@ import (
 //CacheService CacheService
 type CacheService struct {
 	ClientID string
+	PageSize int64
 }
 
 //PageCache PageCache
@@ -52,35 +53,24 @@ func (c *CacheService) ReadPage(pageName string) *PageCache {
 		var cList = cp.PageContent
 		for _, p := range *cList {
 			p.Hits++
-			if p.Hits >= 100 {
+			if p.Hits >= c.PageSize {
 				var h PageHit
 				h.ID = p.ID
 				h.Hits = p.Hits
 				hits = append(hits, h)
 				p.Hits = 0
-				// go func(cont Content) {
-				// 	content := c.GetContent(strconv.FormatInt(cont.ID, 10), clientID)
-				// 	content.Hits += cont.Hits
-				// 	resp := c.UpdateContentHits(content)
-				// 	if resp.Success != true {
-				// 		fmt.Println("content hit update failed")
-				// 	}
-				// }(pc)
 				if hu == false {
 					hu = true
 				}
-
 			}
 			cont = append(cont, p)
 			if cu == false {
 				cu = true
 			}
-
 		}
 		cp.PageContent = &cont
 		pageCache[key] = cp
 	}
-
 	//return values
 	if hu == true {
 		rtn.Hits = &hits
@@ -93,11 +83,13 @@ func (c *CacheService) ReadPage(pageName string) *PageCache {
 }
 
 //RemovePage RemovePage
-func (c *CacheService) RemovePage(pageName string) *[]PageHit {
+func (c *CacheService) RemovePage(pageName string) (bool, *[]PageHit) {
 	mu.Lock()
 	defer mu.Unlock()
 	key := c.ClientID + ":" + pageName
 	cp := pageCache[key]
+	//fmt.Print("found cache in remove: ")
+	//fmt.Println(*cp.PageContent)
 	//var cachedList = cp.PageContent
 	hits := make([]PageHit, 0)
 	if cp.PageName != "" && cp.PageContent != nil {
@@ -110,36 +102,28 @@ func (c *CacheService) RemovePage(pageName string) *[]PageHit {
 			hits = append(hits, h)
 		}
 	}
-
-	// _, pageList := c.GetContentListCategory(clientID, pageName)
-
-	// for _, content := range *pageList {
-	// 	//var contentToSave *Content
-	// 	for _, pc := range *cachedList {
-	// 		if content.ID == pc.ID {
-	// 			content.Hits += pc.Hits
-	// 			break
-	// 		}
-	// 	}
-	// 	// go func(cont Content) {
-	// 	// 	resp := c.UpdateContent(&cont)
-	// 	// 	fmt.Print("updating content ID: ")
-	// 	// 	fmt.Println(cont.ID)
-	// 	// 	if resp.Success != true {
-	// 	// 		fmt.Println("content hit update failed")
-	// 	// 	}
-	// 	// }(content)
-	// }
-
+	//fmt.Print("found cache hits in remove: ")
+	//fmt.Println(hits)
 	//key := clientID + ":" + pageName
 	delete(pageCache, key)
-	return &hits
+	var rtn = false
+	fcp := pageCache[key]
+	if fcp.PageHeader == nil {
+		rtn = true
+	}
+	return rtn, &hits
 }
 
 //DeletePage DeletePage
-func (c *CacheService) DeletePage(pageName string) {
+func (c *CacheService) DeletePage(pageName string) bool {
 	mu.Lock()
 	defer mu.Unlock()
+	var rtn = false
 	key := c.ClientID + ":" + pageName
 	delete(pageCache, key)
+	cp := pageCache[key]
+	if cp.PageHeader == nil {
+		rtn = true
+	}
+	return rtn
 }

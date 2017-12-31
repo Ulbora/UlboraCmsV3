@@ -307,7 +307,7 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 	var gURL = c.Host + "/rs/content/list/" + clientID + "/" + category
 	//fmt.Println(gURL)
 	//resp, err := http.Get(gURL)
-	fmt.Print("get category list")
+	//fmt.Print("get category list")
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	if rErr != nil {
 		fmt.Print("request err: ")

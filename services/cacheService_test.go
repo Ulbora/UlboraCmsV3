@@ -11,6 +11,7 @@ var ccid int64 = 111
 func TestCacheService_CachePage(t *testing.T) {
 	var c CacheService
 	c.ClientID = ccidStr
+	c.PageSize = 2
 	var p PageCache
 
 	var ct Content
@@ -53,6 +54,7 @@ func TestCacheService_CachePage(t *testing.T) {
 func TestCacheService_ReadPage(t *testing.T) {
 	var c CacheService
 	c.ClientID = ccidStr
+	c.PageSize = 2
 	cp := c.ReadPage("main")
 	//print("hits: ")
 	//println(cp)
@@ -75,11 +77,12 @@ func TestCacheService_ReadPage(t *testing.T) {
 func TestCacheService_RemovePage(t *testing.T) {
 	var c CacheService
 	c.ClientID = ccidStr
-	h := c.RemovePage("main")
+	c.PageSize = 2
+	suc, h := c.RemovePage("main")
 	for _, hit := range *h {
 		fmt.Print("page hit to updated to database: ")
 		fmt.Println(hit.Hits)
-		if hit.Hits != 1 {
+		if hit.Hits != 1 || suc != true {
 			t.Fail()
 		}
 	}
@@ -88,7 +91,8 @@ func TestCacheService_RemovePage(t *testing.T) {
 func TestCacheService_DeletePage(t *testing.T) {
 	var c CacheService
 	c.ClientID = ccidStr
-	c.DeletePage("main")
+	c.PageSize = 2
+	suc := c.DeletePage("main")
 	cp := c.ReadPage("main")
 	fmt.Print("page after delete: ")
 	fmt.Println(cp)
@@ -101,7 +105,7 @@ func TestCacheService_DeletePage(t *testing.T) {
 
 	fmt.Print("page header after delete: ")
 	fmt.Println(cp.PageHeader)
-	if cp.PageHeader != nil {
+	if cp.PageHeader != nil || suc != true {
 		t.Fail()
 	}
 }

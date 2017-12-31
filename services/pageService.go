@@ -1,36 +1,128 @@
 package services
 
-//SavePage SavePage
-func (c *ContentService) SavePage(page string) bool {
-	var rtn = false
+import (
+	"fmt"
+	"strconv"
+)
 
-	return rtn
+//ContentPageService ContentPageService
+type ContentPageService struct {
+	Token    string
+	ClientID string
+	APIKey   string
+	UserID   string
+	Hashed   string
+	Host     string
+	PageSize int64
 }
 
+// //SavePage SavePage
+// func (c *ContentPageService) SavePage(page string) bool {
+// 	var rtn = false
+
+// 	return rtn
+// }
+
 //GetPage GetPage
-func (c *ContentService) GetPage(page string) (*PageHead, *[]Content) {
-	var rtn = make([]Content, 0)
-	var pghead = new(PageHead)
+func (c *ContentPageService) GetPage(page string) (*PageHead, *[]Content) {
+	var rtnC *[]Content // = make([]Content, 0)
+	var rtnH *PageHead  // = new(PageHead)
 	var ch CacheService
 	ch.ClientID = c.ClientID
+	ch.PageSize = c.PageSize
 	p := ch.ReadPage(page)
-	if p.PageHeader != nil {
+	var ccc ContentService
+	ccc.ClientID = c.ClientID
+	ccc.Host = c.Host
+	ccc.Token = c.Token
+	if p.PageHeader != nil && p.PageContent != nil {
+		rtnH = p.PageHeader
+		rtnC = p.PageContent
+		if p.Hits != nil {
+			//fmt.Print("page before hit update in page service: ")
+			//fmt.Println(*p.Hits)
+			for _, h := range *p.Hits {
+				go func(hit PageHit) {
+					//fmt.Print("page in go routine before update in page service: ")
+					//fmt.Println(hit)
+					content := ccc.GetContent(strconv.FormatInt(hit.ID, 10), c.ClientID)
+					//fmt.Print("content in go routine before hit change in page service: ")
+					//fmt.Println(content)
+					content.Hits += hit.Hits
+					//fmt.Print("content in go routine after hit change in page service: ")
+					//fmt.Println(content)
+					resp := ccc.UpdateContentHits(content)
+					if resp.Success != true {
+						fmt.Println("content hit update failed")
+					}
+					//fmt.Print("content update resp in go routine after update in page service: ")
+					//fmt.Println(resp)
+				}(h)
+			}
 
+		}
+	} else {
+		rtnH, rtnC = ccc.GetContentListCategory(c.ClientID, page)
+		var pc PageCache
+		//fmt.Print("page before hit update: ")
+		//fmt.Println(*rtnC)
+		clist := make([]Content, 0)
+		pc.PageHeader = rtnH
+		for _, fp := range *rtnC {
+			fp.Hits = 0
+			clist = append(clist, fp)
+		}
+		pc.PageContent = &clist
+		pc.PageName = page
+		rtnC = &clist
+		ch.CachePage(pc)
 	}
 
-	return pghead, &rtn
+	return rtnH, rtnC
 }
 
 //ClearPage ClearPage
-func (c *ContentService) ClearPage(page string) bool {
+func (c *ContentPageService) ClearPage(pageName string) bool {
 	var rtn = false
-
+	var ch CacheService
+	ch.ClientID = c.ClientID
+	ch.PageSize = c.PageSize
+	suc, hits := ch.RemovePage(pageName)
+	if len(*hits) > 0 {
+		var ccc ContentService
+		ccc.ClientID = c.ClientID
+		ccc.Host = c.Host
+		ccc.Token = c.Token
+		pageList := ccc.GetContentList(c.ClientID)
+		//fmt.Print("found page list in clearpage: ")
+		//fmt.Println(pageList)
+		for _, content := range *pageList {
+			//var contentToSave *Content
+			for _, h := range *hits {
+				if content.ID == h.ID {
+					content.Hits += h.Hits
+					break
+				}
+			}
+			go func(cont Content) {
+				resp := ccc.UpdateContentHits(&cont)
+				//fmt.Print("updating content ID: ")
+				//fmt.Println(cont.ID)
+				if resp.Success != true {
+					fmt.Println("content hit update failed")
+				}
+			}(content)
+		}
+	}
+	rtn = suc
 	return rtn
 }
 
 //DeletePage DeletePage
-func (c *ContentService) DeletePage(page string) bool {
-	var rtn = false
-
-	return rtn
+func (c *ContentPageService) DeletePage(pageName string) bool {
+	var ch CacheService
+	ch.ClientID = c.ClientID
+	ch.PageSize = c.PageSize
+	suc := ch.DeletePage(pageName)
+	return suc
 }
