@@ -22,18 +22,28 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	if page == "" {
 		page = "home"
 	}
-	var c services.ContentService
-	c.ClientID = getAuthCodeClient()
-	c.APIKey = getGatewayAPIKey()
-	c.Host = getContentHost()
-	h, res := c.GetContentListCategory(getAuthCodeClient(), page)
-	var pg = new(pageContent)
-	pg.Cont = res
-	pg.MetaAuthor = h.MetaAuthor
-	pg.MetaKeyWords = h.MetaKeyWords
-	pg.MetaDesc = h.MetaDesc
-	pg.Title = h.Title
-	templates.ExecuteTemplate(w, "index.html", pg)
+	//fmt.Print("page in handler: ")
+	//fmt.Println(page)
+	// var c services.ContentService
+	// c.ClientID = getAuthCodeClient()
+	// c.APIKey = getGatewayAPIKey()
+	// c.Host = getContentHost()
+	// h, res := c.GetContentListCategory(getAuthCodeClient(), page)
+	if page != "favicon.ico" {
+		var c services.ContentPageService
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
+		c.Host = getContentHost()
+		c.PageSize = 100
+		h, res := c.GetPage(page)
+		var pg = new(pageContent)
+		pg.Cont = res
+		pg.MetaAuthor = h.MetaAuthor
+		pg.MetaKeyWords = h.MetaKeyWords
+		pg.MetaDesc = h.MetaDesc
+		pg.Title = h.Title
+		templates.ExecuteTemplate(w, "index.html", pg)
+	}
 }
 
 //end user handlers------------------------------------------------

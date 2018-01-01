@@ -98,14 +98,17 @@ func (c *ContentService) AddContent(content *Content) *Response {
 
 //UpdateContent update content
 func (c *ContentService) UpdateContent(content *Content) *Response {
+	//fmt.Print("Content Service at start: ")
 	var rtn = new(Response)
 	var upURL = c.Host + "/rs/content/update"
 	content.Text = b64.StdEncoding.EncodeToString([]byte(content.Text))
 	//fmt.Println(content.Text)
 	aJSON, err := json.Marshal(content)
 	if err != nil {
+		fmt.Print("marchal err: ")
 		fmt.Println(err)
 	} else {
+		//fmt.Print("Content Service before req: ")
 		req, rErr := http.NewRequest("PUT", upURL, bytes.NewBuffer(aJSON))
 		if rErr != nil {
 			fmt.Print("request err: ")
@@ -117,6 +120,7 @@ func (c *ContentService) UpdateContent(content *Content) *Response {
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
 			req.Header.Set("apiKey", c.APIKey)
+			//fmt.Print("Content Service before rest call: ")
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -127,12 +131,14 @@ func (c *ContentService) UpdateContent(content *Content) *Response {
 				decoder := json.NewDecoder(resp.Body)
 				error := decoder.Decode(&rtn)
 				if error != nil {
+					fmt.Print("Content Service Update decode err: ")
 					log.Println(error.Error())
 				}
 				rtn.Code = resp.StatusCode
 			}
 		}
 	}
+	//fmt.Print("Content Service Update leaving: ")
 	return rtn
 }
 
@@ -180,7 +186,7 @@ func (c *ContentService) UpdateContentHits(content *Content) *Response {
 func (c *ContentService) GetContent(id string, clientID string) *Content {
 	var rtn = new(Content)
 	var gURL = c.Host + "/rs/content/get/" + id + "/" + clientID
-	fmt.Println(gURL)
+	//fmt.Println(gURL)
 	//resp, err := http.Get(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	if rErr != nil {

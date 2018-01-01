@@ -34,8 +34,8 @@ func authorize(res http.ResponseWriter, req *http.Request) bool {
 	if resp != true {
 		fmt.Println("Authorize Failed")
 	}
-	fmt.Print("Resp: ")
-	fmt.Println(resp)
+	//fmt.Print("Resp: ")
+	//fmt.Println(resp)
 	return resp
 }
 

@@ -87,6 +87,8 @@ func (c *CacheService) RemovePage(pageName string) (bool, *[]PageHit) {
 	mu.Lock()
 	defer mu.Unlock()
 	key := c.ClientID + ":" + pageName
+	//fmt.Print("key in remove: ")
+	//fmt.Println(key)
 	cp := pageCache[key]
 	//fmt.Print("found cache in remove: ")
 	//fmt.Println(*cp.PageContent)

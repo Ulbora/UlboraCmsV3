@@ -33,9 +33,15 @@ func (c *ContentPageService) GetPage(page string) (*PageHead, *[]Content) {
 	p := ch.ReadPage(page)
 	var ccc ContentService
 	ccc.ClientID = c.ClientID
+	ccc.APIKey = c.APIKey
 	ccc.Host = c.Host
 	ccc.Token = c.Token
+	//fmt.Print("page: ")
+	//fmt.Println(page)
+	//fmt.Print("page from cache: ")
+	//fmt.Println(p)
 	if p.PageHeader != nil && p.PageContent != nil {
+		//fmt.Println("Reading from Cache")
 		rtnH = p.PageHeader
 		rtnC = p.PageContent
 		if p.Hits != nil {
@@ -62,6 +68,7 @@ func (c *ContentPageService) GetPage(page string) (*PageHead, *[]Content) {
 
 		}
 	} else {
+		fmt.Println("Reading from DB")
 		rtnH, rtnC = ccc.GetContentListCategory(c.ClientID, page)
 		var pc PageCache
 		//fmt.Print("page before hit update: ")
@@ -93,6 +100,7 @@ func (c *ContentPageService) ClearPage(pageName string) bool {
 		ccc.ClientID = c.ClientID
 		ccc.Host = c.Host
 		ccc.Token = c.Token
+		ccc.APIKey = c.APIKey
 		pageList := ccc.GetContentList(c.ClientID)
 		//fmt.Print("found page list in clearpage: ")
 		//fmt.Println(pageList)
@@ -105,9 +113,11 @@ func (c *ContentPageService) ClearPage(pageName string) bool {
 				}
 			}
 			go func(cont Content) {
+				//fmt.Print("updating content: ")
+				//fmt.Println(cont)
 				resp := ccc.UpdateContentHits(&cont)
-				//fmt.Print("updating content ID: ")
-				//fmt.Println(cont.ID)
+				//fmt.Print("updating content resp: ")
+				//fmt.Println(resp)
 				if resp.Success != true {
 					fmt.Println("content hit update failed")
 				}

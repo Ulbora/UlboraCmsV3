@@ -103,7 +103,7 @@ func (i *ImageService) AddImage(image *UploadedFile) *ImageResponse {
 func (i *ImageService) GetList() *[]Image {
 	var rtn = make([]Image, 0)
 	var gURL = i.Host + "/rs/image/list/100"
-	fmt.Println(gURL)
+	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	if rErr != nil {
 		fmt.Print("request err: ")
@@ -122,8 +122,8 @@ func (i *ImageService) GetList() *[]Image {
 		} else {
 			defer resp.Body.Close()
 			decoder := json.NewDecoder(resp.Body)
-			fmt.Print("resp body: ")
-			fmt.Println(resp.Body)
+			//fmt.Print("resp body: ")
+			//fmt.Println(resp.Body)
 			error := decoder.Decode(&rtn)
 			if error != nil {
 				log.Println(error.Error())

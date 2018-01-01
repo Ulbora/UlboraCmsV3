@@ -135,11 +135,16 @@ func getHashedUser() string {
 		return parsedToken, nil
 	})
 	if err != nil {
-		fmt.Println(err)
+		eout := err.Error()
+		if eout != "key is of invalid type" {
+			fmt.Print("jwt error: ")
+			fmt.Println(eout)
+		}
 	}
 	if tk != nil {
 		if claims, ok := tk.Claims.(jwt.MapClaims); ok {
 			uid := claims["userId"]
+			//fmt.Print("user: ")
 			//fmt.Println(uid)
 			if uid != nil {
 				rtn = uid.(string)

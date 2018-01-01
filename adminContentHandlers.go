@@ -156,44 +156,44 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		if errID != nil {
 			fmt.Print(errID)
 		}
-		fmt.Print("id: ")
-		fmt.Println(id)
+		//fmt.Print("id: ")
+		//fmt.Println(id)
 
 		content := r.FormValue("content")
-		fmt.Print("content: ")
-		fmt.Println(content)
+		//fmt.Print("content: ")
+		//fmt.Println(content)
 
 		title := r.FormValue("title")
-		fmt.Print("title: ")
-		fmt.Println(title)
+		//fmt.Print("title: ")
+		//fmt.Println(title)
 
 		author := r.FormValue("author")
-		fmt.Print("author: ")
-		fmt.Println(author)
+		//fmt.Print("author: ")
+		//fmt.Println(author)
 
 		category := r.FormValue("category")
 		category = strings.Replace(category, " ", "", -1)
-		fmt.Print("category: ")
-		fmt.Println(category)
+		//fmt.Print("category: ")
+		//fmt.Println(category)
 
 		sortOrder := r.FormValue("sortOrder")
 		if sortOrder == "" {
 			sortOrder = "0"
 		}
-		fmt.Print("sortOrder: ")
-		fmt.Println(sortOrder)
+		//fmt.Print("sortOrder: ")
+		//fmt.Println(sortOrder)
 
 		metaKeyWords := r.FormValue("metaKeyWords")
-		fmt.Print("metaKeyWords: ")
-		fmt.Println(metaKeyWords)
+		//fmt.Print("metaKeyWords: ")
+		//fmt.Println(metaKeyWords)
 
 		desc := r.FormValue("desc")
-		fmt.Print("desc: ")
-		fmt.Println(desc)
+		//fmt.Print("desc: ")
+		//fmt.Println(desc)
 
 		archived := r.FormValue("archived")
-		fmt.Print("archived: ")
-		fmt.Println(archived)
+		//fmt.Print("archived: ")
+		//fmt.Println(archived)
 
 		var ct services.Content
 		ct.ID = id
@@ -206,6 +206,7 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		ct.MetaDesc = desc
 		ct.SortOrder, err = strconv.Atoi(sortOrder)
 		if err != nil {
+			fmt.Print("sortOrder conversion error: ")
 			fmt.Println(err)
 		}
 		if archived == "on" {
@@ -213,6 +214,7 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		} else {
 			ct.Archived = false
 		}
+
 		var c services.ContentService
 		c.ClientID = getAuthCodeClient()
 		c.APIKey = getGatewayAPIKey()
@@ -220,15 +222,24 @@ func handleUpdateContent(w http.ResponseWriter, r *http.Request) {
 		c.Hashed = "true"
 		c.Token = token.AccessToken
 		c.Host = getContentHost()
+
 		var res *services.Response
+
 		res = c.UpdateContent(&ct)
 		if res.Code == 401 {
 			// get new token
 			getRefreshToken(w, r)
 			res = c.UpdateContent(&ct)
 		}
-		fmt.Println(res)
+		//fmt.Println(res)
 		if res.Success == true {
+			var c services.ContentPageService
+			c.ClientID = getAuthCodeClient()
+			c.APIKey = getGatewayAPIKey()
+			c.Token = token.AccessToken
+			c.Host = getContentHost()
+			c.PageSize = 100
+			c.ClearPage(category)
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
 			fmt.Println("Content update failed")
@@ -302,6 +313,7 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 			res = c.DeleteContent(id)
 		}
 		if res.Success != true {
+			// add code to delete cached page====================================
 			fmt.Println("Delete content failed on ID: " + id)
 			fmt.Print("code: ")
 			fmt.Println(res.Code)
