@@ -12,5 +12,7 @@ const (
 	authCodeSecret = "554444vfg55ggfff22454sw2fff2dsfd"
 	authCodeState  = "ghh66555h"
 
+	apiGatewayKey = "403"
+
 	appType = "cms"
 )

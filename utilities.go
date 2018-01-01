@@ -34,7 +34,7 @@ func getGatewayAPIKey() string {
 	if os.Getenv("GATEWAY_API_KEY") != "" {
 		rtn = os.Getenv("GATEWAY_API_KEY")
 	} else {
-		rtn = authCodeClient
+		rtn = apiGatewayKey
 	}
 	return rtn
 }
