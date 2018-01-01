@@ -9,20 +9,20 @@ import (
 // user handlers-----------------------------------------------------
 func handleContactSend(w http.ResponseWriter, r *http.Request) {
 	ans := r.FormValue("answer")
-	fmt.Print("Answer: ")
-	fmt.Println(ans)
+	//fmt.Print("Answer: ")
+	//fmt.Println(ans)
 
 	key := r.FormValue("key")
-	fmt.Print("Key: ")
-	fmt.Println(key)
+	//fmt.Print("Key: ")
+	//fmt.Println(key)
 
 	fromEmail := r.FormValue("fromEmail")
-	fmt.Print("fromEmail: ")
-	fmt.Println(fromEmail)
+	//fmt.Print("fromEmail: ")
+	//fmt.Println(fromEmail)
 
 	text := r.FormValue("text")
-	fmt.Print("text: ")
-	fmt.Println(text)
+	//fmt.Print("text: ")
+	//fmt.Println(text)
 	var c services.ChallengeService
 	c.Host = getChallengeHost()
 	c.ClientID = getAuthCodeClient()
@@ -31,8 +31,8 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 	ch.Answer = ans
 	ch.Key = key
 	cres := c.SendChallenge(&ch)
-	fmt.Print("Challenge Res: ")
-	fmt.Println(cres)
+	//fmt.Print("Challenge Res: ")
+	//fmt.Println(cres)
 	if cres.Success == true {
 		// get client token
 		getCredentialsToken()
@@ -61,8 +61,8 @@ func handleContactForm(w http.ResponseWriter, r *http.Request) {
 	c.ClientID = getAuthCodeClient()
 	c.APIKey = getGatewayAPIKey()
 	res := c.GetChallenge("en_us")
-	fmt.Print("challenge: ")
-	fmt.Println(res)
+	//fmt.Print("challenge: ")
+	//fmt.Println(res)
 	templates.ExecuteTemplate(w, "contact.html", &res)
 }
 

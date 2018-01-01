@@ -215,23 +215,6 @@ func (c *ContentService) GetContent(id string, clientID string) *Content {
 			}
 		}
 	}
-	//fmt.Println(resp)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	defer resp.Body.Close()
-	// 	decoder := json.NewDecoder(resp.Body)
-	// 	error := decoder.Decode(&rtn)
-	// 	if error != nil {
-	// 		log.Println(error.Error())
-	// 	}
-	// 	txt, err := b64.StdEncoding.DecodeString(rtn.Text)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 	} else {
-	// 		rtn.Text = string(txt)
-	// 	}
-	// }
 	return rtn
 }
 
@@ -275,34 +258,6 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 			}
 		}
 	}
-
-	// resp, err := http.Get(gURL)
-	// fmt.Print("get list")
-	// fmt.Println(resp.Body)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	defer resp.Body.Close()
-	// 	//var cont = new(Content)
-	// 	decoder := json.NewDecoder(resp.Body)
-	// 	error := decoder.Decode(&rtn)
-	// 	if error != nil {
-	// 		log.Println(error.Error())
-	// 	}
-	// 	for r := range rtn {
-	// 		txt, err := b64.StdEncoding.DecodeString(rtn[r].Text)
-	// 		if err != nil {
-	// 			fmt.Println(err)
-	// 		} else {
-	// 			rtn[r].Text = string(txt)
-	// 			//fmt.Println(rtn[r].Text)
-	// 		}
-	// 		//fmt.Println(rtn[r].ModifiedDate.Year())
-	// 		if rtn[r].ModifiedDate.Year() != 1 {
-	// 			rtn[r].UseModifiedDate = true
-	// 		}
-	// 	}
-	// }
 	return &rtn
 }
 
@@ -356,12 +311,6 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 			}
 		}
 	}
-	// fmt.Println(resp)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-
-	// }
 	return pghead, &rtn
 }
 

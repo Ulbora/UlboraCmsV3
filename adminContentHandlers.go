@@ -75,36 +75,36 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		authorize(w, r)
 	} else {
 		content := r.FormValue("content")
-		fmt.Print("content: ")
-		fmt.Println(content)
+		//fmt.Print("content: ")
+		//fmt.Println(content)
 
 		title := r.FormValue("title")
-		fmt.Print("title: ")
-		fmt.Println(title)
+		//fmt.Print("title: ")
+		//fmt.Println(title)
 
 		author := r.FormValue("author")
-		fmt.Print("author: ")
-		fmt.Println(author)
+		//fmt.Print("author: ")
+		//fmt.Println(author)
 
 		category := r.FormValue("category")
 		category = strings.Replace(category, " ", "", -1)
-		fmt.Print("category: ")
-		fmt.Println(category)
+		//fmt.Print("category: ")
+		//fmt.Println(category)
 
 		sortOrder := r.FormValue("sortOrder")
 		if sortOrder == "" {
 			sortOrder = "0"
 		}
-		fmt.Print("sortOrder: ")
-		fmt.Println(sortOrder)
+		//fmt.Print("sortOrder: ")
+		//fmt.Println(sortOrder)
 
 		metaKeyWords := r.FormValue("metaKeyWords")
-		fmt.Print("metaKeyWords: ")
-		fmt.Println(metaKeyWords)
+		//fmt.Print("metaKeyWords: ")
+		//fmt.Println(metaKeyWords)
 
 		desc := r.FormValue("desc")
-		fmt.Print("desc: ")
-		fmt.Println(desc)
+		//fmt.Print("desc: ")
+		//fmt.Println(desc)
 		var ct services.Content
 		ct.Text = content
 		ct.Title = title
@@ -298,8 +298,8 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		id := vars["id"]
 		page := vars["cat"]
-		fmt.Print("page: ")
-		fmt.Println(page)
+		//fmt.Print("page: ")
+		//fmt.Println(page)
 		var c services.ContentService
 		c.ClientID = getAuthCodeClient()
 		c.APIKey = getGatewayAPIKey()

@@ -24,11 +24,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 	//fmt.Print("page in handler: ")
 	//fmt.Println(page)
-	// var c services.ContentService
-	// c.ClientID = getAuthCodeClient()
-	// c.APIKey = getGatewayAPIKey()
-	// c.Host = getContentHost()
-	// h, res := c.GetContentListCategory(getAuthCodeClient(), page)
+
 	if page != "favicon.ico" {
 		var c services.ContentPageService
 		c.ClientID = getAuthCodeClient()

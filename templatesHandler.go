@@ -59,8 +59,8 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		name := r.FormValue("name")
-		fmt.Print("template name: ")
-		fmt.Println(name)
+		//fmt.Print("template name: ")
+		//fmt.Println(name)
 		err := r.ParseMultipartForm(1000000)
 		if err != nil {
 			fmt.Println(err)
@@ -72,8 +72,8 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		}
 		defer file.Close()
 
-		fmt.Print("File name: ")
-		fmt.Println(handler.Filename)
+		//fmt.Print("File name: ")
+		//fmt.Println(handler.Filename)
 
 		data, err := ioutil.ReadAll(file)
 		if err != nil {

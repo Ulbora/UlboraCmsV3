@@ -16,13 +16,6 @@ type ContentPageService struct {
 	PageSize int64
 }
 
-// //SavePage SavePage
-// func (c *ContentPageService) SavePage(page string) bool {
-// 	var rtn = false
-
-// 	return rtn
-// }
-
 //GetPage GetPage
 func (c *ContentPageService) GetPage(page string) (*PageHead, *[]Content) {
 	var rtnC *[]Content // = make([]Content, 0)

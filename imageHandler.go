@@ -35,8 +35,8 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 	} else {
 
 		name := r.FormValue("name")
-		fmt.Print("name: ")
-		fmt.Println(name)
+		//fmt.Print("name: ")
+		//fmt.Println(name)
 		err := r.ParseMultipartForm(2000000)
 		if err != nil {
 			fmt.Println(err)
@@ -47,8 +47,8 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 		}
 		defer file.Close()
 
-		fmt.Print("name: ")
-		fmt.Println(handler.Filename)
+		//fmt.Print("name: ")
+		//fmt.Println(handler.Filename)
 
 		cur, err := file.Seek(0, 1)
 		size, err := file.Seek(0, 2)
@@ -63,8 +63,8 @@ func handleImagerUpload(w http.ResponseWriter, r *http.Request) {
 		}
 		//fmt.Println(data)
 
-		fmt.Print("file size: ")
-		fmt.Println(size)
+		//fmt.Print("file size: ")
+		//fmt.Println(size)
 
 		//sEnc := b64.StdEncoding.EncodeToString(data)
 		//fmt.Print("file data: ")

@@ -139,19 +139,6 @@ func (t *TemplateService) GetTemplate(app string, clientID string) *Template {
 			}
 		}
 	}
-
-	// resp, err := http.Get(gURL)
-	// //fmt.Println(resp)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	defer resp.Body.Close()
-	// 	decoder := json.NewDecoder(resp.Body)
-	// 	error := decoder.Decode(&rtn)
-	// 	if error != nil {
-	// 		log.Println(error.Error())
-	// 	}
-	// }
 	return rtn
 }
 
@@ -182,19 +169,6 @@ func (t *TemplateService) GetTemplateList(app string, clientID string) *[]Templa
 		}
 	}
 
-	// resp, err := http.Get(gURL)
-	// fmt.Print("get template list")
-	// fmt.Println(resp.Body)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	defer resp.Body.Close()
-	// 	decoder := json.NewDecoder(resp.Body)
-	// 	error := decoder.Decode(&rtn)
-	// 	if error != nil {
-	// 		log.Println(error.Error())
-	// 	}
-	// }
 	return &rtn
 }
 

@@ -28,8 +28,8 @@ func handleMailServer(w http.ResponseWriter, r *http.Request) {
 		if res.Server.ID == 0 {
 			res.Server.Port = 465
 		}
-		fmt.Print("mail res: ")
-		fmt.Println(res)
+		//fmt.Print("mail res: ")
+		//fmt.Println(res)
 		//fmt.Print("mail server: ")
 		//fmt.Println(m)
 		templatesAdmin.ExecuteTemplate(w, "mailServer.html", &res.Server)
@@ -51,39 +51,39 @@ func handleMailServerUpdate(w http.ResponseWriter, r *http.Request) {
 		if errID != nil {
 			fmt.Print(errID)
 		}
-		fmt.Print("id: ")
-		fmt.Println(id)
+		//fmt.Print("id: ")
+		//fmt.Println(id)
 
 		mailServer := r.FormValue("mailServer")
-		fmt.Print("mailServer: ")
-		fmt.Println(mailServer)
+		//fmt.Print("mailServer: ")
+		//fmt.Println(mailServer)
 
 		secureConnection := r.FormValue("secureConnection")
-		fmt.Print("secureConnection: ")
-		fmt.Println(secureConnection)
+		//fmt.Print("secureConnection: ")
+		//fmt.Println(secureConnection)
 
 		port := r.FormValue("port")
 		if port == "" {
 			port = "0"
 		}
-		fmt.Print("port: ")
-		fmt.Println(port)
+		//fmt.Print("port: ")
+		//fmt.Println(port)
 
 		debug := r.FormValue("debug")
-		fmt.Print("debug: ")
-		fmt.Println(debug)
+		//fmt.Print("debug: ")
+		//fmt.Println(debug)
 
 		username := r.FormValue("username")
-		fmt.Print("username: ")
-		fmt.Println(username)
+		//fmt.Print("username: ")
+		//fmt.Println(username)
 
 		password := r.FormValue("password")
-		fmt.Print("password: ")
-		fmt.Println(password)
+		//fmt.Print("password: ")
+		//fmt.Println(password)
 
 		fromAddress := r.FormValue("fromAddress")
-		fmt.Print("fromAddress: ")
-		fmt.Println(fromAddress)
+		//fmt.Print("fromAddress: ")
+		//fmt.Println(fromAddress)
 
 		var ms services.MailServer
 		ms.ID = id

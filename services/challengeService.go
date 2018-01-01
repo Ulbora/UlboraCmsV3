@@ -92,18 +92,5 @@ func (c *ChallengeService) GetChallenge(lan string) *Challenge {
 			}
 		}
 	}
-
-	// resp, err := http.Get(gURL)
-	// //fmt.Println(resp)
-	// if err != nil {
-	// 	panic(err)
-	// } else {
-	// 	defer resp.Body.Close()
-	// 	decoder := json.NewDecoder(resp.Body)
-	// 	error := decoder.Decode(&rtn)
-	// 	if error != nil {
-	// 		log.Println(error.Error())
-	// 	}
-	// }
 	return rtn
 }
