@@ -297,6 +297,9 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 	} else {
 		vars := mux.Vars(r)
 		id := vars["id"]
+		page := vars["cat"]
+		fmt.Print("page: ")
+		fmt.Println(page)
 		var c services.ContentService
 		c.ClientID = getAuthCodeClient()
 		c.APIKey = getGatewayAPIKey()
@@ -313,10 +316,21 @@ func handleDeleteContent(w http.ResponseWriter, r *http.Request) {
 			res = c.DeleteContent(id)
 		}
 		if res.Success != true {
-			// add code to delete cached page====================================
 			fmt.Println("Delete content failed on ID: " + id)
 			fmt.Print("code: ")
 			fmt.Println(res.Code)
+		} else {
+			// add code to delete cached page====================================
+			var c services.ContentPageService
+			c.ClientID = getAuthCodeClient()
+			c.APIKey = getGatewayAPIKey()
+			c.Token = token.AccessToken
+			c.Host = getContentHost()
+			c.PageSize = 100
+			//res2 := c.DeletePage(page)
+			c.DeletePage(page)
+			//fmt.Print("delete res: ")
+			//fmt.Println(res2)
 		}
 		http.Redirect(w, r, "/admin/main", http.StatusFound)
 	}

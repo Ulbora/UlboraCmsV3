@@ -57,7 +57,7 @@ func main() {
 	router.HandleFunc("/admin/newContent", handleNewContent)
 	router.HandleFunc("/admin/getContent/{id}", handleGetContent)
 	router.HandleFunc("/admin/updateContent", handleUpdateContent)
-	router.HandleFunc("/admin/deleteContent/{id}", handleDeleteContent)
+	router.HandleFunc("/admin/deleteContent/{id}/{cat}", handleDeleteContent)
 
 	router.HandleFunc("/admin/mailServer", handleMailServer)
 	router.HandleFunc("/admin/mailServerUpdate", handleMailServerUpdate)
