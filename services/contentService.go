@@ -73,12 +73,15 @@ func (c *ContentService) AddContent(content *Content) *Response {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
+			req.Header.Set("u-client-id", c.ClientID)
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
-			req.Header.Set("apiKey", c.APIKey)
+			req.Header.Set("u-api-key", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
+			fmt.Print("resp: ")
+			fmt.Println(resp)
 			if cErr != nil {
 				fmt.Print("Content Service Add err: ")
 				fmt.Println(cErr)
@@ -116,10 +119,11 @@ func (c *ContentService) UpdateContent(content *Content) *Response {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
+			req.Header.Set("u-client-id", c.ClientID)
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
-			req.Header.Set("apiKey", c.APIKey)
+			req.Header.Set("u-api-key", c.APIKey)
 			//fmt.Print("Content Service before rest call: ")
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
@@ -159,10 +163,11 @@ func (c *ContentService) UpdateContentHits(content *Content) *Response {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
+			req.Header.Set("u-client-id", c.ClientID)
 			req.Header.Set("clientId", c.ClientID)
 			req.Header.Set("userId", c.UserID)
 			req.Header.Set("hashed", c.Hashed)
-			req.Header.Set("apiKey", c.APIKey)
+			req.Header.Set("u-api-key", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -193,8 +198,9 @@ func (c *ContentService) GetContent(id string, clientID string) *Content {
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
+		req.Header.Set("u-client-id", c.ClientID)
+		req.Header.Set("u-api-key", c.APIKey)
 		req.Header.Set("clientId", c.ClientID)
-		req.Header.Set("apiKey", c.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
@@ -228,8 +234,9 @@ func (c *ContentService) GetContentList(clientID string) *[]Content {
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
+		req.Header.Set("u-client-id", c.ClientID)
+		req.Header.Set("u-api-key", c.APIKey)
 		req.Header.Set("clientId", c.ClientID)
-		req.Header.Set("apiKey", c.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
@@ -274,8 +281,9 @@ func (c *ContentService) GetContentListCategory(clientID string, category string
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
+		req.Header.Set("u-client-id", c.ClientID)
 		req.Header.Set("clientId", c.ClientID)
-		req.Header.Set("apiKey", c.APIKey)
+		req.Header.Set("u-api-key", c.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
@@ -326,10 +334,11 @@ func (c *ContentService) DeleteContent(id string) *Response {
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+c.Token)
+		req.Header.Set("u-client-id", c.ClientID)
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("userId", c.UserID)
 		req.Header.Set("hashed", c.Hashed)
-		req.Header.Set("apiKey", c.APIKey)
+		req.Header.Set("u-api-key", c.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {

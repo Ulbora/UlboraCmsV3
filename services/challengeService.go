@@ -43,8 +43,8 @@ func (c *ChallengeService) SendChallenge(chal *Challenge) *ChallengeResponse {
 			fmt.Println(rErr)
 		} else {
 			req.Header.Set("Content-Type", "application/json")
-			req.Header.Set("clientId", c.ClientID)
-			req.Header.Set("apiKey", c.APIKey)
+			req.Header.Set("u-client-id", c.ClientID)
+			req.Header.Set("u-api-key", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -74,8 +74,8 @@ func (c *ChallengeService) GetChallenge(lan string) *Challenge {
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
-		req.Header.Set("clientId", c.ClientID)
-		req.Header.Set("apiKey", c.APIKey)
+		req.Header.Set("u-client-id", c.ClientID)
+		req.Header.Set("u-api-key", c.APIKey)
 		//req.Header.Set("userId", m.UserID)
 		//req.Header.Set("hashed", m.Hashed)
 		client := &http.Client{}

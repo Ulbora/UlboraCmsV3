@@ -50,10 +50,11 @@ func (t *TemplateService) AddTemplate(tmpl *Template) *TemplateResponse {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+t.Token)
+			req.Header.Set("u-client-id", t.ClientID)
 			req.Header.Set("clientId", t.ClientID)
 			req.Header.Set("userId", t.UserID)
 			req.Header.Set("hashed", t.Hashed)
-			req.Header.Set("apiKey", t.APIKey)
+			req.Header.Set("u-api-key", t.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -90,10 +91,11 @@ func (t *TemplateService) UpdateTemplate(tmpl *Template) *TemplateResponse {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+t.Token)
+			req.Header.Set("u-client-id", t.ClientID)
 			req.Header.Set("clientId", t.ClientID)
 			req.Header.Set("userId", t.UserID)
 			req.Header.Set("hashed", t.Hashed)
-			req.Header.Set("apiKey", t.APIKey)
+			req.Header.Set("u-api-key", t.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -123,8 +125,9 @@ func (t *TemplateService) GetTemplate(app string, clientID string) *Template {
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
+		req.Header.Set("u-client-id", t.ClientID)
 		req.Header.Set("clientId", t.ClientID)
-		req.Header.Set("apiKey", t.APIKey)
+		req.Header.Set("u-api-key", t.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
@@ -152,8 +155,9 @@ func (t *TemplateService) GetTemplateList(app string, clientID string) *[]Templa
 		fmt.Print("request err: ")
 		fmt.Println(rErr)
 	} else {
+		req.Header.Set("u-client-id", t.ClientID)
 		req.Header.Set("clientId", t.ClientID)
-		req.Header.Set("apiKey", t.APIKey)
+		req.Header.Set("u-api-key", t.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
@@ -184,10 +188,11 @@ func (t *TemplateService) DeleteTemplate(id string) *TemplateResponse {
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+t.Token)
+		req.Header.Set("u-client-id", t.ClientID)
 		req.Header.Set("clientId", t.ClientID)
 		req.Header.Set("userId", t.UserID)
 		req.Header.Set("hashed", t.Hashed)
-		req.Header.Set("apiKey", t.APIKey)
+		req.Header.Set("u-api-key", t.APIKey)
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {

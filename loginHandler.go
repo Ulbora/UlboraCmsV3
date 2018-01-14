@@ -9,14 +9,31 @@ import (
 
 // login handler
 func handleLogout(res http.ResponseWriter, req *http.Request) {
-	session, err := s.GetSession(req)
-	if err != nil {
-		http.Error(res, err.Error(), http.StatusInternalServerError)
-	} else {
-		session.Values["userLoggenIn"] = false
-		session.Save(req, res)
-		http.Redirect(res, req, "/", http.StatusFound)
+	//session, err := s.GetSession(req)
+	//if err != nil {
+	//http.Error(res, err.Error(), http.StatusInternalServerError)
+	//} else {
+	token = nil
+	cookie := &http.Cookie{
+		Name:   "user-session",
+		Value:  "",
+		Path:   "/",
+		MaxAge: -1,
 	}
+	http.SetCookie(res, cookie)
+
+	cookie2 := &http.Cookie{
+		Name:   "ulbora_oauth2_server",
+		Value:  "",
+		Path:   "/",
+		MaxAge: -1,
+	}
+	http.SetCookie(res, cookie2)
+
+	//session.Values["userLoggenIn"] = false
+	//session.Save(req, res)
+	http.Redirect(res, req, "/", http.StatusFound)
+	//}
 }
 
 func authorize(res http.ResponseWriter, req *http.Request) bool {

@@ -165,13 +165,13 @@ func getRefreshToken(w http.ResponseWriter, r *http.Request) {
 	tn.Secret = getAuthCodeSecret()
 	tn.RefreshToken = token.RefreshToken
 	fmt.Print("refresh token being sent: ")
-	fmt.Println(tn.RefreshToken)
+	//fmt.Println(tn.RefreshToken)
 	resp := tn.AuthCodeRefreshToken()
 	fmt.Print("refresh token response: ")
-	fmt.Println(resp)
+	//fmt.Println(resp)
 	if resp != nil && resp.AccessToken != "" {
 		fmt.Print("new token: ")
-		fmt.Println(resp.AccessToken)
+		//fmt.Println(resp.AccessToken)
 		token = resp
 		session, err := s.GetSession(r)
 		if err != nil {

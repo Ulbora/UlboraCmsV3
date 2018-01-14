@@ -70,10 +70,11 @@ func (m *MailServerService) AddMailServer(mailServer *MailServer) *MailResponse 
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+m.Token)
+			req.Header.Set("u-client-id", m.ClientID)
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
-			req.Header.Set("apiKey", m.APIKey)
+			req.Header.Set("u-api-key", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -109,10 +110,11 @@ func (m *MailServerService) UpdateMailServer(mailServer *MailServer) *MailRespon
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+m.Token)
+			req.Header.Set("u-client-id", m.ClientID)
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
-			req.Header.Set("apiKey", m.APIKey)
+			req.Header.Set("u-api-key", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {
@@ -143,8 +145,9 @@ func (m *MailServerService) GetMailServer() *MailServerResponse {
 		fmt.Println(rErr)
 	} else {
 		req.Header.Set("Authorization", "Bearer "+m.Token)
+		req.Header.Set("u-client-id", m.ClientID)
 		req.Header.Set("clientId", m.ClientID)
-		req.Header.Set("apiKey", m.APIKey)
+		req.Header.Set("u-api-key", m.APIKey)
 		//req.Header.Set("userId", m.UserID)
 		//req.Header.Set("hashed", m.Hashed)
 		client := &http.Client{}
@@ -180,10 +183,11 @@ func (m *MailServerService) SendMail(mailMessage *MailMessage) *MailResponse {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+m.Token)
+			req.Header.Set("u-client-id", m.ClientID)
 			req.Header.Set("clientId", m.ClientID)
 			req.Header.Set("userId", m.UserID)
 			req.Header.Set("hashed", m.Hashed)
-			req.Header.Set("apiKey", m.APIKey)
+			req.Header.Set("u-api-key", m.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
 			if cErr != nil {

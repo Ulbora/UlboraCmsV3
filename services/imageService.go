@@ -76,8 +76,9 @@ func (i *ImageService) AddImage(image *UploadedFile) *ImageResponse {
 		} else {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+i.Token)
+			req.Header.Set("u-client-id", i.ClientID)
 			req.Header.Set("clientId", i.ClientID)
-			req.Header.Set("apiKey", i.APIKey)
+			req.Header.Set("u-api-key", i.APIKey)
 			//req.Header.Set("userId", i.UserID)
 			//req.Header.Set("hashed", i.Hashed)
 			client := &http.Client{}
@@ -110,8 +111,9 @@ func (i *ImageService) GetList() *[]Image {
 		fmt.Println(rErr)
 	} else {
 		req.Header.Set("Authorization", "Bearer "+i.Token)
+		req.Header.Set("u-client-id", i.ClientID)
 		req.Header.Set("clientId", i.ClientID)
-		req.Header.Set("apiKey", i.APIKey)
+		req.Header.Set("u-api-key", i.APIKey)
 		//req.Header.Set("userId", m.UserID)
 		//req.Header.Set("hashed", m.Hashed)
 		client := &http.Client{}
@@ -145,8 +147,9 @@ func (i *ImageService) DeleteImage(id string) *ImageResponse {
 	} else {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+i.Token)
+		req.Header.Set("u-client-id", i.ClientID)
 		req.Header.Set("clientId", i.ClientID)
-		req.Header.Set("apiKey", i.APIKey)
+		req.Header.Set("u-api-key", i.APIKey)
 		//req.Header.Set("userId", i.UserID)
 		//req.Header.Set("hashed", i.Hashed)
 		client := &http.Client{}

@@ -117,6 +117,7 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 		}
+		//fmt.Println(token.AccessToken)
 		var c services.ContentService
 		c.ClientID = getAuthCodeClient()
 		c.APIKey = getGatewayAPIKey()
@@ -126,13 +127,15 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 		c.Host = getContentHost()
 		var res *services.Response
 		res = c.AddContent(&ct)
+		//fmt.Print("res: ")
+		//fmt.Println(res)
 		if res.Code == 401 {
 			// get new token
 			getRefreshToken(w, r)
 			res = c.AddContent(&ct)
 		}
 
-		fmt.Println(res)
+		//fmt.Println(res)
 		if res.Success == true {
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
