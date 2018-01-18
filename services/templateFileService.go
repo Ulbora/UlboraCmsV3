@@ -62,8 +62,8 @@ func (t *TemplateFileService) ExtractFile() bool {
 				}
 				defer gzr.Close()
 				f.Close()
-				fmt.Print("removing: ")
-				fmt.Println(tmptFile)
+				//fmt.Print("removing: ")
+				//fmt.Println(tmptFile)
 				err3 := os.Remove(tmptFile)
 				if err3 != nil {
 					fmt.Println(err)
@@ -113,8 +113,8 @@ func extractTarGzFile(tr *tar.Reader, h *tar.Header, dest string) error {
 func (t *TemplateFileService) DeleteTemplate() bool {
 	var rtn = false
 	var tmptDir = t.Destination + string(filepath.Separator) + t.Name
-	fmt.Print("deleting :")
-	fmt.Println(tmptDir)
+	//fmt.Print("deleting :")
+	//fmt.Println(tmptDir)
 	err := os.RemoveAll(tmptDir)
 	if err != nil {
 		fmt.Print("delete template dir error: ")

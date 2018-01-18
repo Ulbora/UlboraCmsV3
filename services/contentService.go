@@ -80,8 +80,8 @@ func (c *ContentService) AddContent(content *Content) *Response {
 			req.Header.Set("u-api-key", c.APIKey)
 			client := &http.Client{}
 			resp, cErr := client.Do(req)
-			fmt.Print("resp: ")
-			fmt.Println(resp)
+			//fmt.Print("resp: ")
+			//fmt.Println(resp)
 			if cErr != nil {
 				fmt.Print("Content Service Add err: ")
 				fmt.Println(cErr)
