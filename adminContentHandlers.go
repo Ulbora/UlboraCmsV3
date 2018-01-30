@@ -137,6 +137,13 @@ func handleNewContent(w http.ResponseWriter, r *http.Request) {
 
 		//fmt.Println(res)
 		if res.Success == true {
+			var c services.ContentPageService
+			c.ClientID = getAuthCodeClient()
+			c.APIKey = getGatewayAPIKey()
+			c.Token = token.AccessToken
+			c.Host = getContentHost()
+			c.PageSize = 100
+			c.ClearPage(category)
 			http.Redirect(w, r, "/admin/main", http.StatusFound)
 		} else {
 			http.Redirect(w, r, "/admin/addContent", http.StatusFound)

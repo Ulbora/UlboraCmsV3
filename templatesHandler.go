@@ -61,7 +61,7 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		name := r.FormValue("name")
 		//fmt.Print("template name: ")
 		//fmt.Println(name)
-		err := r.ParseMultipartForm(1000000)
+		err := r.ParseMultipartForm(2000000)
 		if err != nil {
 			fmt.Println(err)
 		}
