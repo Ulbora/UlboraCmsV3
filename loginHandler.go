@@ -41,7 +41,7 @@ func authorize(res http.ResponseWriter, req *http.Request) bool {
 	fmt.Println(schemeDefault)
 	var a oauth2.AuthCodeAuthorize
 	a.ClientID = getAuthCodeClient()
-	a.OauthHost = getOauthHost()
+	a.OauthHost = getOauthRedirectHost()
 	a.RedirectURI = getRedirectURI(req, "/admin/token")
 	a.Scope = "write"
 	a.State = authCodeState
