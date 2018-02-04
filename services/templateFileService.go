@@ -56,6 +56,8 @@ func (t *TemplateFileService) ExtractFile() bool {
 						eName := t.Destination + string(filepath.Separator) + t.Name
 						err2 := extractTarGzFile(tr, hdr, eName)
 						if err2 != nil {
+							fmt.Print("File extract Error: ")
+							fmt.Println(err2)
 							break
 						}
 					}
@@ -66,6 +68,7 @@ func (t *TemplateFileService) ExtractFile() bool {
 				//fmt.Println(tmptFile)
 				err3 := os.Remove(tmptFile)
 				if err3 != nil {
+					fmt.Print("File remove Error: ")
 					fmt.Println(err)
 				} else {
 					rtn = true

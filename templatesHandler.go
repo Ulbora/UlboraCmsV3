@@ -63,11 +63,13 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		//fmt.Println(name)
 		err := r.ParseMultipartForm(2000000)
 		if err != nil {
+			fmt.Print("File Parse Error: ")
 			fmt.Println(err)
 		}
 
 		file, handler, err := r.FormFile("template")
 		if err != nil {
+			fmt.Print("Read File Error: ")
 			fmt.Println(err)
 		}
 		defer file.Close()
@@ -77,6 +79,7 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 
 		data, err := ioutil.ReadAll(file)
 		if err != nil {
+			fmt.Print("Open and read File Error: ")
 			fmt.Println(err)
 		}
 
@@ -97,6 +100,8 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 			getRefreshToken(w, r)
 			res = t.AddTemplate(&tmpl)
 		}
+		fmt.Print("Add template Resp: ")
+		fmt.Println(res)
 		var eres = false
 		if res.Success == true {
 			// untar file
@@ -106,6 +111,8 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 			ts.Name = name
 			ts.FileData = data
 			eres = ts.ExtractFile()
+			fmt.Print("Extrat Resp: ")
+			fmt.Println(eres)
 		}
 		if res.Success == true && eres == true {
 			if dtemp.Active == false {
