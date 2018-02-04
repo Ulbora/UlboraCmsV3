@@ -83,6 +83,7 @@ func getContentHost() string {
 	var rtn = ""
 	if os.Getenv("API_GATEWAY_HOST") != "" {
 		rtn = os.Getenv("API_GATEWAY_HOST")
+		rtn = rtn + "/content"
 	} else if os.Getenv("CONTENT_HOST") != "" {
 		rtn = os.Getenv("CONTENT_HOST")
 	} else {
@@ -95,6 +96,7 @@ func getMailHost() string {
 	var rtn = ""
 	if os.Getenv("API_GATEWAY_HOST") != "" {
 		rtn = os.Getenv("API_GATEWAY_HOST")
+		rtn = rtn + "/mail"
 	} else if os.Getenv("MAIL_HOST") != "" {
 		rtn = os.Getenv("MAIL_HOST")
 	} else {
@@ -107,6 +109,7 @@ func getImageHost() string {
 	var rtn = ""
 	if os.Getenv("API_GATEWAY_HOST") != "" {
 		rtn = os.Getenv("API_GATEWAY_HOST")
+		rtn = rtn + "/image"
 	} else if os.Getenv("IMAGE_HOST") != "" {
 		rtn = os.Getenv("IMAGE_HOST")
 	} else {
@@ -119,6 +122,7 @@ func getTemplateHost() string {
 	var rtn = ""
 	if os.Getenv("API_GATEWAY_HOST") != "" {
 		rtn = os.Getenv("API_GATEWAY_HOST")
+		rtn = rtn + "/template"
 	} else if os.Getenv("TEMPLATE_HOST") != "" {
 		rtn = os.Getenv("TEMPLATE_HOST")
 	} else {
@@ -131,6 +135,7 @@ func getChallengeHost() string {
 	var rtn = ""
 	if os.Getenv("API_GATEWAY_HOST") != "" {
 		rtn = os.Getenv("API_GATEWAY_HOST")
+		rtn = rtn + "/challenge"
 	} else if os.Getenv("CHALLENGE_HOST") != "" {
 		rtn = os.Getenv("CHALLENGE_HOST")
 	} else {
