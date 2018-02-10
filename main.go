@@ -107,6 +107,7 @@ func setTemplate() {
 		"./static/templates/"+templateLoc+"/contact.html")
 	if tperr != nil {
 		fmt.Println("Can't find assigned template " + templateLoc + ", using default.")
+		fmt.Println(tperr)
 		templateLoc = "default"
 		tp, tperr = template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
 			"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html",
