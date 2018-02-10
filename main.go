@@ -96,7 +96,21 @@ func setTemplate() {
 		templateLoc = tmpl.Name
 	}
 	fmt.Println("using template " + templateLoc)
-	templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
+	// templates = template.Must(template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
+	// 	"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html",
+	// 	"./static/templates/"+templateLoc+"/contact.html"))
+	var tp *template.Template
+	var tperr error
+
+	tp, tperr = template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
 		"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html",
-		"./static/templates/"+templateLoc+"/contact.html"))
+		"./static/templates/"+templateLoc+"/contact.html")
+	if tperr != nil {
+		fmt.Println("Can't find assigned template " + templateLoc + ", using default.")
+		templateLoc = "default"
+		tp, tperr = template.ParseFiles("./static/templates/"+templateLoc+"/index.html", "./static/templates/"+templateLoc+"/header.html",
+			"./static/templates/"+templateLoc+"/footer.html", "./static/templates/"+templateLoc+"/navbar.html",
+			"./static/templates/"+templateLoc+"/contact.html")
+	}
+	templates = template.Must(tp, tperr)
 }
