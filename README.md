@@ -1,8 +1,37 @@
-UlboraCMS V3
+[UlboraCMS V3](http://www.ulboralabs.com/ulboracms)
 ==============
 
 UlboraCMS V3 is a framework for building dynamic web sites with Go.
 Web content is saved in the cloud and cached when read.
+UlboraCMS V3 uses open source micro services that provide the functionality needed. 
+All micro services are available on Docker.
+
+## Micro Services Needed (All require MySql)
+
+### [Content Service](https://hub.docker.com/r/ulboralabs/content)
+Micro service for content
+
+### [Template Service](https://hub.docker.com/r/ulboralabs/templates)
+Micro service for UlboraCMS v3 templates
+
+### [Mail Service](https://hub.docker.com/r/ulboralabs/mail)
+Mail server and mail sending micro service
+
+### [Image Service](https://hub.docker.com/r/ulboralabs/images)
+Image micro service
+
+## Security 
+UlboraCMS V3 uses enhanced JWT tokes for security. The following is needed for enhanced JWT:
+
+### [OAuth2 Server](https://hub.docker.com/r/ulboralabs/oauth2server)
+OAuth2 server 
+
+### [User Service](https://hub.docker.com/r/ulboralabs/userservice)
+User micro service
+
+
+
+
 
 ## Docker Container
 
