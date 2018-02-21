@@ -1,3 +1,5 @@
+[![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/UlboraCmsV3)](https://goreportcard.com/report/github.com/Ulbora/UlboraCmsV3)
+
 [UlboraCMS V3](http://www.ulboralabs.com/ulboracms)
 ==============
 
