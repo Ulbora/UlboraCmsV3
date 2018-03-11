@@ -81,7 +81,7 @@ func (c *ChallengeService) GetChallenge(lan string) *Challenge {
 		client := &http.Client{}
 		resp, cErr := client.Do(req)
 		if cErr != nil {
-			fmt.Print("challange get err: ")
+			fmt.Print("challenge get err: ")
 			fmt.Println(cErr)
 		} else {
 			defer resp.Body.Close()

@@ -1,5 +1,9 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/UlboraCmsV3)](https://goreportcard.com/report/github.com/Ulbora/UlboraCmsV3)
 
+
+[![](https://img.shields.io/docker/build/mariobehling/loklak.svg)](https://hub.docker.com/r/ulboralabs/ulboracmsv3/builds/)
+
+
 [UlboraCMS V3](http://www.ulboralabs.com/ulboracms)
 ==============
 

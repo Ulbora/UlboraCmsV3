@@ -53,7 +53,13 @@ func TestImageService_AddImage(t *testing.T) {
 	}
 
 	cur, err := imgfile.Seek(0, 1)
-	size, err := imgfile.Seek(0, 2)
+	if err != nil {
+		fmt.Println(err)
+	}
+	size, err2 := imgfile.Seek(0, 2)
+	if err2 != nil {
+		fmt.Println(err)
+	}
 	_, err1 := imgfile.Seek(cur, 0)
 	if err1 != nil {
 		fmt.Println(err1)
