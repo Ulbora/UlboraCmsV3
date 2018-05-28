@@ -1,6 +1,6 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/UlboraCmsV3)](https://goreportcard.com/report/github.com/Ulbora/UlboraCmsV3)
 [![](https://img.shields.io/docker/build/mariobehling/loklak.svg)](https://hub.docker.com/r/ulboralabs/ulboracmsv3/builds/)
-[![Maintainability](https://api.codeclimate.com/v1/badges/39d19772f1ac0b6e2a9b/maintainability)](https://codeclimate.com/github/Ulbora/UlboraCmsV3/maintainability)
+
 
 [UlboraCMS V3](http://www.ulboralabs.com/ulboracms)
 ==============
