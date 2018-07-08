@@ -9,6 +9,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+var captchaSecret string
+
 func getTemplate() string {
 	var rtn = ""
 	if os.Getenv("TEMPLATE_LOC") != "" {
@@ -142,6 +144,30 @@ func getChallengeHost() string {
 		rtn = "http://localhost:3011/challenge"
 	}
 	return rtn
+}
+
+//GetCaptchaHost GetCaptchaHost
+func getCaptchaHost() string {
+	var rtn string
+	if os.Getenv("CAPTCHA_HOST") != "" {
+		rtn = os.Getenv("CAPTCHA_HOST")
+	} else {
+		rtn = "https://www.google.com/recaptcha/api/siteverify"
+	}
+	//fmt.Print("captcha host: ")
+	//fmt.Println(rtn)
+	return rtn
+}
+
+//GetCaptchaSecret GetCaptchaSecret
+func getCaptchaSecret(ps string) {
+	if os.Getenv("CAPTCHA_SECRET") != "" {
+		captchaSecret = os.Getenv("CAPTCHA_SECRET")
+	} else {
+		captchaSecret = ps
+	}
+	//fmt.Print("captcha secret: ")
+	//fmt.Println(h.CaptchaSecret)
 }
 
 func getHashedUser() string {

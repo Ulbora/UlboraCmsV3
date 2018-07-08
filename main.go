@@ -32,6 +32,7 @@ var templatesAdmin = template.Must(template.ParseFiles("./static/admin/index.htm
 var username string
 
 func main() {
+	var recapt string
 	setTemplate()
 	s.MaxAge = sessingTimeToLive
 	s.Name = userSession
@@ -39,6 +40,12 @@ func main() {
 		s.SessionKey = os.Getenv("SESSION_SECRET_KEY")
 	}
 	router := mux.NewRouter()
+
+	if len(os.Args) == 2 {
+		recapt = os.Args[1]
+	}
+
+	getCaptchaSecret(recapt)
 
 	//Web Site
 	router.HandleFunc("/", handleIndex)

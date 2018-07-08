@@ -3,19 +3,13 @@ package main
 import (
 	services "UlboraCmsV3/services"
 	"fmt"
+	"net"
 	"net/http"
 )
 
 // user handlers-----------------------------------------------------
 func handleContactSend(w http.ResponseWriter, r *http.Request) {
-	ans := r.FormValue("answer")
-	//fmt.Print("Answer: ")
-	//fmt.Println(ans)
-
-	key := r.FormValue("key")
-	//fmt.Print("Key: ")
-	//fmt.Println(key)
-
+	var proceed = false
 	fromEmail := r.FormValue("fromEmail")
 	//fmt.Print("fromEmail: ")
 	//fmt.Println(fromEmail)
@@ -23,17 +17,69 @@ func handleContactSend(w http.ResponseWriter, r *http.Request) {
 	text := r.FormValue("text")
 	//fmt.Print("text: ")
 	//fmt.Println(text)
-	var c services.ChallengeService
-	c.Host = getChallengeHost()
-	c.ClientID = getAuthCodeClient()
-	c.APIKey = getGatewayAPIKey()
-	var ch services.Challenge
-	ch.Answer = ans
-	ch.Key = key
-	cres := c.SendChallenge(&ch)
+
+	recaptchaResp := r.FormValue("g-recaptcha-response")
+	fmt.Print("recaptchaResp: ")
+	fmt.Println(recaptchaResp)
+	if recaptchaResp != "" {
+		// do recaptcha
+
+		var ipAddr string
+
+		addrs, _ := net.InterfaceAddrs()
+		for _, a := range addrs {
+			if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+				if ipnet.IP.To4() != nil {
+					ipAddr = ipnet.IP.String()
+					break
+				}
+			}
+		}
+		// fmt.Print("captcha secret: ")
+		// fmt.Println(h.CaptchaSecret)
+
+		// fmt.Print("client ip address: ")
+		// fmt.Println(ipAddr)
+
+		// fmt.Print("recaptchaResp: ")
+		// fmt.Println(recaptchaResp)
+
+		var s services.CaptchaService
+		s.Host = getCaptchaHost()
+		var cap services.Captcha
+		cap.Remoteip = ipAddr
+		cap.Secret = captchaSecret
+		cap.Response = recaptchaResp
+		res := s.SendCaptchaCall(cap)
+		if res.Success {
+			proceed = true
+		}
+	} else {
+		var c services.ChallengeService
+		c.Host = getChallengeHost()
+		c.ClientID = getAuthCodeClient()
+		c.APIKey = getGatewayAPIKey()
+
+		var ch services.Challenge
+		ans := r.FormValue("answer")
+		//fmt.Print("Answer: ")
+		//fmt.Println(ans)
+
+		key := r.FormValue("key")
+		//fmt.Print("Key: ")
+		//fmt.Println(key)
+		ch.Answer = ans
+		ch.Key = key
+
+		cres := c.SendChallenge(&ch)
+		if cres.Success {
+			proceed = true
+		}
+	}
+
 	//fmt.Print("Challenge Res: ")
 	//fmt.Println(cres)
-	if cres.Success == true {
+	if proceed {
 		// get client token
 		getCredentialsToken()
 		var m services.MailServerService
