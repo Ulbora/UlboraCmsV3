@@ -38,6 +38,8 @@ func main() {
 	s.Name = userSession
 	if os.Getenv("SESSION_SECRET_KEY") != "" {
 		s.SessionKey = os.Getenv("SESSION_SECRET_KEY")
+	} else {
+		s.SessionKey = "115722gggg14ddfg4567"
 	}
 	router := mux.NewRouter()
 
