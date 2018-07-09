@@ -58,7 +58,7 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 		authorize(w, r)
 	} else {
 
-		name := r.FormValue("name")
+		//name := r.FormValue("name")
 		//fmt.Print("template name: ")
 		//fmt.Println(name)
 		err := r.ParseMultipartForm(2000000)
@@ -73,7 +73,7 @@ func handleTemplateUpload(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 		defer file.Close()
-
+		var name = handler.Filename[:len(handler.Filename)-7]
 		//fmt.Print("File name: ")
 		//fmt.Println(handler.Filename)
 
