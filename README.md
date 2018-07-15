@@ -7,7 +7,7 @@
 
 UlboraCMS UI is a framework for building dynamic web sites using [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService).
 Web content is saved in the cloud and cached when read.
-UlboraCMS V3 uses open source micro services that provide the functionality needed. 
+UlboraCMS UI uses open source micro services that provide the functionality needed. 
 All micro services are available on Docker.
 
 ## Micro Services Needed (All require MySql)
