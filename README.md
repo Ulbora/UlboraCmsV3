@@ -2,17 +2,17 @@
 [![](https://img.shields.io/docker/build/mariobehling/loklak.svg)](https://hub.docker.com/r/ulboralabs/ulboracmsv3/builds/)
 
 
-[UlboraCMS V3](http://www.ulboralabs.com/ulboracms)
+[UlboraCMS UI](http://www.ulboralabs.com/ulboracms)
 ==============
 
-UlboraCMS V3 is a framework for building dynamic web sites with Go.
+UlboraCMS UI is a framework for building dynamic web sites using [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService).
 Web content is saved in the cloud and cached when read.
 UlboraCMS V3 uses open source micro services that provide the functionality needed. 
 All micro services are available on Docker.
 
 ## Micro Services Needed (All require MySql)
 
-### [Content Service](https://hub.docker.com/r/ulboralabs/content)
+### [Headless UlboraCMS](https://hub.docker.com/r/ulboralabs/content)
 Micro service for content
 
 ### [Template Service](https://hub.docker.com/r/ulboralabs/templates)
