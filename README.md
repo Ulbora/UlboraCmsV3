@@ -21,7 +21,7 @@ Get a free acount and get started now.
 
 ## Build Your Own System
 
-Building your own system give you total control over your system, but you must host all the needed micro services.
+Building your own system gives you total control over your system, but you must host all the needed micro services.
 
 ## Micro Services Needed (All require MySql)
 
