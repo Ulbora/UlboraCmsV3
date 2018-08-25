@@ -5,15 +5,24 @@
 [UlboraCMS UI](http://www.ulboralabs.com/ulboracms)
 ==============
 
-UlboraCMS UI is a framework for building dynamic web sites using [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService).
+UlboraCMS UI is a framework for building dynamic web sites using [Ulbora Headless CMS](https://github.com/Ulbora/UlboraContentService).
 Web content is saved in the cloud and cached when read.
-UlboraCMS UI uses open source micro services that provide the functionality needed. 
-All micro services are available on Docker.
+UlboraCMS UI uses open source Ulbora Headless CMS for content. 
+Ulbora Headless CMS on available on Docker.
+
+# Easy Way To Get Started
+
+## Get a free account at www.ulboracms.com
+
+[Free Account](http://www.register.myapigateway.com/?ulboraCms=true)
+
+
+# Build Your Own System
 
 ## Micro Services Needed (All require MySql)
 
-### [Headless UlboraCMS](https://hub.docker.com/r/ulboralabs/content)
-Micro service for content
+### [Ulbora Headless CMS](https://hub.docker.com/r/ulboralabs/content)
+Ulbora Headless CMS for content
 
 ### [Template Service](https://hub.docker.com/r/ulboralabs/templates)
 Micro service for UlboraCMS v3 templates
