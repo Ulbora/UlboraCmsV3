@@ -15,8 +15,9 @@ Ulbora Headless CMS on available on Docker.
 ## Get a [Free Account](http://www.register.myapigateway.com/?ulboraCms=true)
 
 
+#Hard Way To Get Started
 
-# Build Your Own System
+## Build Your Own System
 
 ## Micro Services Needed (All require MySql)
 
