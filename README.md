@@ -14,7 +14,9 @@ Ulbora Headless CMS on available on Docker.
 
 ## [Free Account](http://www.register.myapigateway.com/?ulboraCms=true)
 
-Get a free acount and get started now.
+Get a free acount and get started now. Then:
+
+docker run -p 8090:80 --name yourdomin.com --log-opt max-size=50m --env GATEWAY_API_KEY=yourApiKey --env AUTH_CODE_CLIENT_ID=YourClientNumber --env AUTH_CODE_CLIENT_SECRET=YourClientSecret --env AUTH_REDIRECT_HOST=http://oauth2.myapigateway.com:3000 --env AUTH_HOST=http://oauth2.myapigateway.com:3000 --env CAPTCHA_SECRET=Your Captch Secret --env API_GATEWAY_HOST=http://gateway.myapigateway.com -v /static/templates --restart=always -d ulboralabs/ulboracmsv3 sh
 
 # Hard Way To Get Started
 
