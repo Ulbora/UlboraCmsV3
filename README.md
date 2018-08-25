@@ -12,9 +12,7 @@ Ulbora Headless CMS on available on Docker.
 
 # Easy Way To Get Started
 
-## Get a free account at www.ulboracms.com
-
-[Free Account](http://www.register.myapigateway.com/?ulboraCms=true)
+## Get a [Free Account](http://www.register.myapigateway.com/?ulboraCms=true) at www.ulboracms.com
 
 
 # Build Your Own System
